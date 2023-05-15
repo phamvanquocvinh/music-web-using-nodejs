@@ -1,0 +1,116 @@
+<div class="landing" style="min-height:100vh;">
+    <header>
+        <a href="../" class="brand"><img src="img/logo1.png" alt="">Paradise Music</a>
+        <div class="menu-btn"></div>
+        <div class="navigation">
+            <div class="navigation-items">
+                <a style="text-decoration: none;" href="../">Home</a>
+                <a href="/aboutUs">About Us</a>
+                <a href="/privacy-policy">Privacy</a>
+                <a href="/feedback">Feedback</a>
+                <a href="/contact">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="home">
+        <video class="video-slide active" src="video/1.mp4" autoplay muted loop></video>
+        <video class="video-slide" src="video/2.mp4" autoplay muted loop></video>
+        <video class="video-slide" src="video/3.mp4" autoplay muted loop></video>
+        <video class="video-slide" src="video/4.mp4" autoplay muted loop></video>
+        <video class="video-slide" src="video/5.mp4" autoplay muted loop></video>
+
+        <div class="content active">
+            <h1>Paradise.<br><span>Music</span></h1>
+            <p>Music is often described as a form of paradise, a source of solace and comfort that transcends the
+                boundaries of language and culture. The beauty of music lies in its ability to touch the deepest
+                parts of our being and evoke a range of emotions that are both powerful and profound.</p>
+            <a href="/register">Get Started</a>
+        </div>
+        <div class="content">
+            <h1>World Of.<br><span>Beauty</span></h1>
+            <p>Whether it's the uplifting melody of a pop song or the haunting strains of a classical symphony,
+                music has the power to transport us to a different realm, a world of beauty and wonder that is not
+                bound by the limitations of our everyday lives. It has the ability to lift our spirits and fill our
+                hearts with joy, bringing a sense of peace and tranquility that is difficult to find elsewhere.</p>
+            <a href="">Get Started</a>
+        </div>
+        <div class="content">
+            <h1>Form Of.<br><span>Therapy</span></h1>
+            <p>Music can also be a form of therapy, helping us to cope with difficult emotions and experiences. It
+                has been shown to reduce stress and anxiety, and even alleviate physical pain. Music therapy is
+                increasingly being used in hospitals, schools, and other settings to help people of all ages and
+                backgrounds to overcome a range of challenges.</p>
+            <a href="">Get Started</a>
+        </div>
+        <div class="content">
+            <h1>Tool For.<br><span>Relaxation</span></h1>
+            <p>Listening to music can have a profound effect on our mental state, particularly when it comes to
+                relaxation. Research has shown that music can have a therapeutic effect on the mind and body, helping to
+                reduce stress, anxiety, and depression. The soothing sounds of music can activate the relaxation
+                response in the body, lowering heart rate, breathing rate, and blood pressure.</p>
+            <a href="">Get Started</a>
+        </div>
+        <div class="content">
+            <h1>Universe.<br><span>Language</span></h1>
+            <p>Whether we are listening to music, playing an instrument, or singing along to our favorite songs,
+                music has the power to transport us to a place of pure bliss and happiness. It is a universal
+                language that speaks to us all, and it is truly one of the most beautiful things that life has to
+                offer. So it's no wonder that so many people describe music as paradise.</p>
+            <a href="">Get Started</a>
+        </div>
+        <div class="media-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+        <div class="slider-navigation">
+            <div class="nav-btn active"></div>
+            <div class="nav-btn"></div>
+            <div class="nav-btn"></div>
+            <div class="nav-btn"></div>
+            <div class="nav-btn"></div>
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    //javascript of responsive navigation menu
+    const menuBtn = document.querySelector(".menu-btn");
+    const navigation = document.querySelector(".navigation");
+
+    menuBtn.addEventListener("click", () => {
+        menuBtn.classList.toggle("active");
+        navigation.classList.toggle("active");
+    });
+
+    //video slider navigation
+    const btns = document.querySelectorAll(".nav-btn");
+    const slides = document.querySelectorAll(".video-slide");
+    const contents = document.querySelectorAll(".content");
+
+    var sliderNav = function (manual) {
+        btns.forEach((btn) => {
+            btn.classList.remove("active");
+        });
+
+        slides.forEach((slide) => {
+            slide.classList.remove("active");
+        });
+
+        contents.forEach((content) => {
+            content.classList.remove("active");
+        });
+
+        btns[manual].classList.add("active");
+        slides[manual].classList.add("active");
+        contents[manual].classList.add("active");
+    };
+
+    btns.forEach((btn, i) => {
+        btn.addEventListener("click", () => {
+            sliderNav(i);
+        })
+    });
+
+</script>

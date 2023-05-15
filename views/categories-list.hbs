@@ -1,0 +1,42 @@
+{{#each genre}}
+<div class="container" style="min-height:100vh; margin-bottom: 70px;" data-aos="fade-left">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="row">
+                <div class="title">
+                    <h3 class="topic">
+                        {{genre_name}}
+                    </h3>
+                </div>
+            </div>
+            <div class="row mt-0">
+                {{#each songs_id}}
+                <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                    <div class="my-card">
+                        <a id="song-play">
+                            <div class="img-holder">
+                                <img src={{song_img}} alt="">
+                            </div>
+                            <div class="text">
+                                <h5 class="song-name">{{song_name}}</h5>
+                            </div>
+                        </a>
+                        <button class="btn btn-play-hover"><i class="play-pause fas fa-play"></i></button>
+                        {{#each artists_id}}
+                        <a href="/artists/{{artist_name}}">
+                            <p class="artist-name">{{artist_name}}</p>
+                        </a>
+                        {{/each}}
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}
+
+{{!-- animation scroll --}}
+<script>
+    AOS.init();
+</script>

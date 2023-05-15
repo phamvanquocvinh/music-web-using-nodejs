@@ -1,0 +1,51 @@
+{{#each song}}
+
+<div class="container" data-aos="fade-up" style="min-height:100vh;">
+    <div class="intro-box mt-3" id="bg">
+        <div class="row flex-container">
+            <div class="col-3 col-sm-3 col-md-4 col-lg-3 col-xl-2">
+                <div class="my-card">
+                    <a href="">
+                        <div class="img-holder">
+                            <img src={{song_img}} alt="">
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-9 col-sm-9 col-md-8 col-lg-9 col-xl-10">
+                <div class="intro-text">
+                    <p class="hint">Lyrics</p>
+                    <a>
+                        <div class="song-name-in-lyrics">{{song_name}}</div>
+                        <p style="display: none" id="lyrics">{{song_lyric}}</p>
+                    </a>
+                    {{#each artists_id}}
+                    <p class="artist-name-in-lyrics">{{artist_name}}</p>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="lyrics-container p-3 mt-3 mb-5" id="bg1">
+    </div>
+
+</div>
+{{/each}}
+
+{{!-- animation scroll --}}
+<script>
+    AOS.init();
+    url = document.getElementById('lyrics').textContent;
+    $.ajax({
+        url: url,
+        dataType: 'text',
+        success: function(data) {
+            $('#bg1').html('<p class="lyrics-content">' + data.replace(/\n/g, '</p><p class="lyrics-content">') + '</p>');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Error:', textStatus, errorThrown);
+        }
+    });
+
+</script>

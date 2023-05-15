@@ -1,0 +1,140 @@
+{{#unless session.isLoggedIn}}
+<div class="music-bar" style="display: block">
+        <audio id="music-player" controls="true">
+            <source src="" type="audio/mpeg">
+        </audio>
+    <div class="container d-flex align-items-center" >
+        <div class="song-infos d-flex align-items-center">
+            <div class="image-container">
+                <img src="https://random.imagecdn.app/150/150" alt="">
+            </div>
+            <div class="song-description">
+                <p class="song-name">Song Name</p>
+                <p class="artist-name">Artist Name</p>
+            </div>
+        </div>
+        <button  style="display: none" class="btn-like" data-song=""><i class="far fa-heart"></i></button>
+
+        <div class="playControls-elements">
+            <button class="btn-random btn-musicbar"><i class="fas fa-random"></i></button>
+            <button class="btn-backward btn-musicbar"><i class="fas fa-step-backward"></i></button>
+            <button class="btn-play btn-musicbar"><i class="play-pause fas fa-pause"></i></button>
+            <button id="btn-next" class="btn-forward btn-musicbar"><i class="fas fa-step-forward"></i></button>
+            <button class="btn-undoalt btn-musicbar"><i class="fas fa-undo-alt"></i></button>
+        </div>
+         <div class="progress-container d-flex align-items-center">
+            <span class="time-start">0:00</span>
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            <span class="time-end">3:15</span>
+        </div>
+
+        <a class="btn-volume"><i class="fas fa-volume-down" style="font-size: 20px;"></i></a>
+        <div class="middle">
+            <div class="slider-container">
+                <span class="bar"><span class="fill"></span></span>
+                <input id="slider" class="slider" type="range" min="0" max="100" value="100">
+            </div>
+        </div>
+        <div style="display: none">
+            <a class="btn-rating" href="../rating"><i class="fa-regular fa-star"></i></a>
+            <a class="btn-download" href="/download"><i class="fa fa-arrow-down"></i></a>
+            <a class="btn-comment" href="../comment"><i class="fa fa-comment-dots"></i></a>
+            <a class="btn-add" href=""><i class="fa fa-plus-circle"></i></a>
+        </div>
+           
+            <a class="btn-lyrics" href="../lyrics"><i class="fa fa-microphone"></i></a>
+    </div>
+
+    {{!-- Audio tag --}}
+    
+    
+
+    <style>
+        #music-player {
+            display: none;
+        }
+    </style>
+</div>
+{{else}}
+<div class="music-bar">
+        <audio id="music-player" controls="true">
+            <source src="" type="audio/mpeg">
+        </audio>
+    <div class="container d-flex align-items-center" >
+        <div class="song-infos d-flex align-items-center">
+            <div class="image-container">
+                <img src="https://random.imagecdn.app/150/150" alt="">
+            </div>
+            <div class="song-description">
+                <p class="song-name">Song Name</p>
+                <p class="artist-name">Artist Name</p>
+            </div>
+        </div>
+        <button class="btn-like" data-song=""><i class="far fa-heart"></i></button>
+
+        <div class="playControls-elements">
+            <button class="btn-random btn-musicbar"><i class="fas fa-random"></i></button>
+            <button class="btn-backward btn-musicbar"><i class="fas fa-step-backward"></i></button>
+            <button class="btn-play btn-musicbar"><i class="play-pause fas fa-pause"></i></button>
+            <button id="btn-next" class="btn-forward btn-musicbar"><i class="fas fa-step-forward"></i></button>
+            <button class="btn-undoalt btn-musicbar"><i class="fas fa-undo-alt"></i></button>
+        </div>
+         <div class="progress-container d-flex align-items-center">
+            <span class="time-start">0:00</span>
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            <span class="time-end">3:15</span>
+        </div>
+
+        <a class="btn-volume"><i class="fas fa-volume-down" style="font-size: 20px;"></i></a>
+        <div class="middle">
+            <div class="slider-container">
+                <span class="bar"><span class="fill"></span></span>
+                <input id="slider" class="slider" type="range" min="0" max="100" value="100">
+            </div>
+        </div>
+            <a class="btn-rating" href="../rating"><i class="fa-regular fa-star"></i></a>
+            <a class="btn-download" href="/download"><i class="fa fa-arrow-down"></i></a>
+            <a class="btn-comment" href="../comment"><i class="fa fa-comment-dots"></i></a>
+            <button type="button" class="add-playlist-musicbar" data-bs-toggle="modal" data-bs-target="#add-to-playlist">
+                <i class="fa fa-plus-circle"></i>
+            </button>
+            <a class="btn-lyrics" href="../lyrics"><i class="fa fa-microphone"></i></a>
+    </div>
+
+    {{!-- Audio tag --}}
+
+    <style>
+        #music-player {
+            display: none;
+        }
+    </style>
+</div>
+
+
+
+{{/unless}}
+
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+    crossorigin="anonymous"></script>
+
+<script>
+    var $slider = $("#slider");
+    var $fill = $(".bar .fill");
+
+    function setBar() {
+        $fill.css("width", $slider.val() + "%");
+    }
+
+    $slider.on("input", setBar);
+    setBar();
+
+
+    
+</script>
+
+
+

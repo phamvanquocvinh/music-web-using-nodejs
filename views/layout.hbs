@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{{title}}</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+    crossorigin="anonymous"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+<div id = "body-content">
+  {{#if hideNavbar}}
+    <!-- do not render the footer partial -->
+    {{else}}
+    {{> navbar}}
+  {{/if}}
+
+  <body class="light">
+    {{{body}}}
+  </body>
+
+  {{#if hideFooter}}
+    <!-- do not render the footer partial -->
+    {{else}}
+    <footer>
+    {{> footer}}
+
+    </footer>
+  {{/if}}
+</div>
+
+{{#if hideMusicbar}}
+  <!-- do not render the footer partial -->
+  {{else}}
+  <div id="music-bar">
+    {{> musicbar}}
+  </div>  
+{{/if}}
+
+<!-- Modal Add To Playlist -->
+<div class="modal fade" id="add-to-playlist" tabindex="-1" aria-labelledby="add-to-playlist-ModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="add-to-playlist-ModalLabel"><img src="img/logo1.png" alt="">Add to
+                    playlist</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <select class="form-select" id="playlists_id">
+                    {{#if user}}
+                    {{#each user.created_playlists}}
+                    <option value="{{playlist_name}}">{{playlist_name}}</option>
+                    {{/each}}
+                    {{/if}}
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn cancel" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-create-playlist" data-bs-toggle="modal"
+                    data-bs-target="#create-new-playlist">
+                    Create new playlist
+                </button>
+                
+                <button type="button" id="btn-add-to-playlist" class="btn btn-primary create-playlist" data-song-id="{{song_id}}">Add to playlist</button>
+
+                {{!-- <button type="button" id="btn-add-to-playlist" class="btn btn-primary create-playlist">Add to
+                    playlist</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- Modal Create New Playlist --}}
+<div class="modal fade" id="create-new-playlist" tabindex="-1" aria-labelledby="create-new-playlist-ModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="create-new-playlist-ModalLabel"><img src="img/logo1.png" alt=""> Create
+                    new playlist</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-auto">
+                    <label for="name_playlist" class="col-form-label">Playlist Name</label>
+                </div>
+                <div class="col-auto">
+                    <input type="text" id="name_playlist" class="form-control" aria-describedby="">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn cancel" data-bs-dismiss="modal">Cancel</button>
+                <button  type="button" class="btn btn-create-playlist" data-bs-toggle="modal"
+                    data-bs-target="#add-to-playlist">
+                    Back
+                </button>
+                <button type="button" id="btn-create-playlist" class="btn btn-primary create-playlist">Create new
+                    playlist</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/script.js"></script>
+<script>
+  AOS.init();
+</script>
+
+ {{!-- </script type="text/javascript" src="../public/script.js"></script> --}}
+ <script async>
+
+const urlGetTop10 = `getTop10/Top%2010`;
+let isClickingNext = false;
+let songPlayBtns = document.querySelectorAll('#song-play');
+const songPlayChartBtns = document.querySelectorAll('#song-play-chart');
+var audioPlayer = document.getElementById("music-player");
+const sourceElement = audioPlayer.querySelector("source");
+const timeStart = document.querySelector('.time-start');
+const timeEnd = document.querySelector('.time-end');
+
+//Play/Pause Audio
+const playBtn = document.querySelector(".btn-play");
+const playPauseIcon = document.querySelector(".play-pause");
+
+//add to playlist button
+const btnAddToPlaylist = document.getElementById('btn-add-to-playlist');
+
+//like
+const btnLike = document.querySelector('.btn-like');
+//rating
+const ratingBtn = document.querySelector(".btn-rating");
+//download 
+const downloadBtn = document.querySelector(".btn-download");
+//comment
+const commentBtn = document.querySelector(".btn-comment");
+//add to playlist
+const addToPlayListBtn = document.querySelector(".btn-add");
+//lyric
+const lyricBtn = document.querySelector(".btn-lyrics");
+
+//--Change play/pause icon--//
+function togglePlay() {
+  if (audioPlayer.paused) {
+    audioPlayer.play();
+    playPauseIcon.classList.remove("fa-play");
+    playPauseIcon.classList.add("fa-pause");
+  } else {
+    audioPlayer.pause();
+    playPauseIcon.classList.remove("fa-pause");
+    playPauseIcon.classList.add("fa-play");
+  }
+}
+playBtn.addEventListener("click", togglePlay);
+$('.btn-play').click(function() {
+    var icon = $(this).find('i');
+    if (icon.hasClass('fa-play')) {
+        icon.removeClass('fa-play').addClass('fa-pause');
+    } else {
+        icon.removeClass('fa-pause').addClass('fa-play');
+    }
+});
+//--------------------------//
+
+
+//--Chức năng Replay nhạc--//
+const undoButton = document.querySelector('.btn-undoalt');
+undoButton.addEventListener('click', function() {
+  audioPlayer.currentTime = 0;
+  audioPlayer.play();
+});
+//--------------------------//
+
+//Chuyển function từ none -> block
+function showMusicBar() {
+  const musicBar = document.querySelector('.music-bar');
+  musicBar.style.display = 'block';
+}
+
+
+function playSong(songName) {
+  showMusicBar();
+
+  const nextButton = document.querySelector('.btn-forward');
+  const backwardButton = document.querySelector('.btn-backward');
+  urlSongPlay = `/songplay/${songName}`;
+  let songInfo = document.querySelector('.song-infos');
+  $.ajax({
+    url: urlSongPlay,
+    type: 'GET',
+    success: function(response) {
+      getTop10()
+      const btnRandom = document.querySelector('.btn-random');
+      let isRandomOn = false;
+      //--Set giá trị cho thanh Musicbar--//
+      if (songInfo.querySelector('img') !== null) {
+            songInfo.querySelector('img').setAttribute('src', response.song.song_img);
+          }
+          if (songInfo.querySelector('.song-name') !== null) {
+            songInfo.querySelector('.song-name').textContent = response.song.song_name;
+          }
+          if (songInfo.querySelector('.artist-name') !== null) {
+            songInfo.querySelector('.artist-name').textContent = response.song.artists_id[0].artist_name;
+          }
+      sourceElement.src = response.song.song_path;
+      timeStart.textContent = '0:00'
+      timeEnd.textContent = response.song.song_duration;
+      //--------------------------//
+
+      //--Chức năng Download bài hát, Validate pathDownload để set href cho downloadBtn--//
+      const pathDownload = response.song.song_name.toLowerCase().replace(/\s+/g, '-');
+      //Set href cho các button
+      btnLike.setAttribute('data-song', response.song.song_name)
+      ratingBtn.setAttribute('href', '/rating/'+`${response.song.song_name}`);
+      downloadBtn.setAttribute('href', '/download/'+`${pathDownload}`);
+      commentBtn.setAttribute('href', '/comment/'+`${response.song.song_name}`);
+      lyricBtn.setAttribute('href', '/lyrics/'+`${response.song.song_name}`);
+      //--------------------------//
+
+      //--Chức năng phát nhạc cùng thể loại--//
+      btnRandom.addEventListener('click', function() {
+        isRandomOn = !isRandomOn; // Đảo trạng thái của biến cờ
+        if (isRandomOn) {
+          // Nếu trạng thái hiện tại là bật, đổi màu sắc nút thành cam
+          btnRandom.style.color = '#ffa200';
+        } else {
+          // Nếu trạng thái hiện tại là tắt, đổi màu sắc nút về trạng thái bình thường
+          btnRandom.style.color = 'initial'; // hoặc có thể sử dụng 'inherit' để lấy màu sắc mặc định của phần tử cha
+        }
+        // Gọi hàm lấy danh sách bài hát theo genre_name
+        getSongListByGenre(response.song.song_name);
+      });
+      //--------------------------//
+
+      //--Chức năng tạo playlist cá nhân--//
+      function createNewPlaylist() {
+          const playlistName = document.getElementById('name_playlist').value;
+          if (!playlistName) {
+              alert('Please enter a playlist name');
+              return;
+          }
+          let urlCreatePlaylistLayout = 'create-playlist/' + playlistName;
+          $.ajax({
+              url: urlCreatePlaylistLayout,
+              type: 'POST',
+              success: function(response) {
+                  alert('Playlist created successfully');
+                  $('#create-new-playlist').modal('hide');
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                  alert('Failed to create playlist');
+              }
+          });
+      };
+
+      $('#create-new-playlist').on('shown.bs.modal', function () {
+          $('#btn-create-playlist').on('click', function() {
+              createNewPlaylist();
+              console.log('click');
+          });
+      });
+
+      //--------------------------//
+
+      //--add to playlist--// 
+      btnAddToPlaylist.setAttribute('data-song-id', response.song._id);
+      $('#btn-add-to-playlist').on('click', function(event) {
+        event.preventDefault();
+
+        const songId = $(this).data('song-id');
+        const playlistName = $('#playlists_id').val();
+
+        $.ajax({
+          url: `/add-to-playlist/${playlistName}`,
+          type: 'POST',
+          data: { songName: songId },
+          success: function(response) {
+            $('#add-to-playlist').modal('hide');
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            console.error(errorThrown);
+            alert('Thêm thất bại, bài hát đã có trong playlist');
+          }
+        });
+      });
+      //--------------------------//
+
+      audioPlayer.load();
+      audioPlayer.addEventListener('canplaythrough', function() {
+        audioPlayer.play();
+      });
+
+      //--Tô màu like button--//
+      const icon = document.querySelector('.btn-like i');
+      if (response.user.liked_songs.includes(response.song._id)) {
+        icon.classList.replace('far', 'fa-solid');
+        icon.style.color = '#ffa200';
+      }else{
+        icon.classList.replace('fa-solid', 'far');
+      }
+      //--------------------------//
+      // Lưu thông tin bài hát hiện tại vào biến currentSong
+        let currentSong = response.song;
+
+        //--Chức năng chuyển bài hát tiếp theo--//
+        nextButton.addEventListener('click', function() {
+                if (isClickingNext) { // kiểm tra nếu đã click thì không cho phép click tiếp
+                    return;
+                }
+                isClickingNext = true; // đặt biến cờ là đang click
+            const audioPlayer = document.getElementById('music-player');
+            const playlist = JSON.parse(sessionStorage.getItem('playlist'));
+            const currentSongIndex = playlist.findIndex(item => item._id === currentSong._id);
+            currentSong = playlist[currentSongIndex];
+            let nextSongIndex = currentSongIndex + 1;
+            audioPlayer.pause();
+            if (nextSongIndex >= playlist.length) {
+                // Nếu đây là bài hát cuối cùng, dừng phát nhạc
+                audioPlayer.pause();
+                return;
+            }
+            const nextSong = playlist[nextSongIndex];
+            currentSong = nextSong;
+            playSong(nextSong.song_name);
+            setTimeout(() => { // đặt timeout để đảm bảo sau 1 khoảng thời gian thì biến cờ mới được đặt lại là false
+                isClickingNext = false;
+            }, 1000); // thời gian tính bằng mili giây
+        });
+        //---------------------//
+
+         //--Chức năng chuyển bài hát trước đó--//
+        backwardButton.addEventListener('click', function() {
+            const audioPlayer = document.getElementById('music-player');
+            const playlist = JSON.parse(sessionStorage.getItem('playlist'));
+            const currentSongIndex = playlist.findIndex(item => item._id === currentSong._id);
+            const nextSongIndex = currentSongIndex - 1;
+            audioPlayer.pause();
+            if (nextSongIndex < 0) {
+                // Nếu đây là bài hát đầu tiên và đang phát, thì dừng phát nhạc
+                if (!audioPlayer.paused) {
+                    audioPlayer.pause();
+                }
+                return;
+            }
+
+            const nextSong = playlist[nextSongIndex];
+            currentSong = nextSong;
+            playSong(nextSong.song_name);
+        });
+        //---------------------//
+
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.log("Errors:", textStatus, errorThrown);
+    }
+  });
+}
+
+// Lấy danh sách bài hát trong top 10.
+    function getTop10() {
+        $.ajax({
+            url: urlGetTop10,
+            type: 'GET',
+            success: function(response) {
+            // Lưu trữ danh sách bài hát vào session
+            sessionStorage.setItem('playlist', JSON.stringify(response.songs));
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            console.log("Errors:", textStatus, errorThrown);
+            }
+        });
+    }
+    function getSongListByGenre(songName) {
+      const urlGetSongListByGenre = 'getSongListByGenre/' + songName;
+      $.ajax({
+            url: urlGetSongListByGenre,
+            type: 'GET',
+            success: function(response) {
+            // Lưu trữ danh sách bài hát vào session
+            sessionStorage.setItem('playlist', JSON.stringify(response.songs));
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            console.log("Errors:", textStatus, errorThrown);
+            }
+        });
+    }
+
+// Xử lý sự kiện click trên các nút play
+songPlayBtns.forEach((btn) => {
+  btn.addEventListener('click', function(event) {
+    const songName = event.target.closest('.my-card').querySelector('.song-name').textContent;
+    playSong(songName);
+  });
+});
+
+$(document).on('click', '#song-play-chart', function(event) {
+  const songNameChart = $(event.target).closest('.chart-text').find('.song-name').text();
+  playSong(songNameChart);
+  // Do something with songNameChart
+});
+
+//--Chức năng đếm giây, phát nhạc--//
+const progress = document.querySelector('.progress');
+const progressBar = progress.querySelector('.progress');
+
+audioPlayer.addEventListener('loadedmetadata', function() {
+    const duration = audioPlayer.duration;
+    timeEnd.textContent = formatTime(duration);
+});
+
+audioPlayer.addEventListener('timeupdate', function() {
+    const currentTime = audioPlayer.currentTime;
+    const duration = audioPlayer.duration;
+
+    timeStart.textContent = formatTime(currentTime);
+    progress.style.width = (currentTime / duration) * 100 + '%';
+});
+
+function formatTime(time) {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${padZero(minutes)}:${padZero(seconds)}`;
+}
+
+function padZero(number) {
+    return (number < 10 ? '0' : '') + number;
+}
+//--------------------------//
+
+//--Chức năng tăng giảm âm lượng bằng Progress Bar--//
+//Khai báo biến cho nút volume
+const volumeSlider = document.querySelector('#slider');
+const volumeButton = document.querySelector('.btn-volume');
+
+// Mute/unmute site when volume button is clicked
+volumeButton.addEventListener('click', function(event) {
+  event.preventDefault();
+  const volumeIcon = volumeButton.querySelector('i');
+
+  if (audioPlayer.muted) {
+    audioPlayer.muted = false;
+    volumeIcon.classList.replace('fa-volume-mute', 'fa-volume-down');
+  } else {
+    audioPlayer.muted = true;
+    volumeIcon.classList.replace('fa-volume-down', 'fa-volume-mute');
+  }
+});
+
+
+// Set volume when volume slider is changed
+volumeSlider.addEventListener('input', function() {
+  audioPlayer.volume = volumeSlider.value / 100;
+});
+//--------------------------//
+
+
+//F5 để xóa localStorage
+window.addEventListener('keydown', function(event) {
+  if (event.keyCode === 116) { // 116 là mã phím của F5
+    localStorage.clear();
+  }
+});
+
+
+//--[AJAX] Chức năng phát nhạc, không thay đổi Musicbar khi tải trang khác--//
+$(document).on('click', '.btn-rating, .btn-download, .btn-comment, .btn-lyrics, .btn-add, .my-card-album a, .carousel-item a, nav ul li a, .chart-card a, .title a, .chart-text a, .chart-card-art a, chart-card-album a, .artist-chart-text a, .artist-card a, .my-card-cate a', function(e) {
+    e.preventDefault(); 
+    // prevent default action of clicking on a link
+    var url = $(this).attr('href'); // get the URL of the link
+    $.ajax({
+        url: url,
+        method: 'GET',
+        cache: false,
+        dataType: 'html',
+        success: function(response) {
+            // replace the content of the current page with the response from the server
+            if(url.includes('/download')){
+              window.location.href = url;
+              return;
+            }
+            else if (url !== '/logout') {
+              $('#body-content').not('#music-bar').html(response);
+              history.pushState(null, '', url);
+
+              // Remove the click event on songPlayBtns before adding it again in playSong function
+              songPlayBtns.forEach((btn) => {
+                  btn.removeEventListener('click', playSong);
+              });
+
+              // Gọi hàm playSong tại đây để đăng ký sự kiện cho các nút play trên trang mới
+              songPlayBtns = document.querySelectorAll('#song-play');
+              songPlayBtns.forEach((btn) => {
+                  btn.addEventListener('click', playSong);
+              });
+              // Gọi hàm playSong tại đây để đăng ký sự kiện cho các nút play trên trang mới
+              let songPlayBtns1 = document.querySelectorAll('#song-play');
+              songPlayBtns1.forEach((btn) => {
+              btn.addEventListener('click', function(event) {
+                  const songName = event.target.closest('.my-card').querySelector('.song-name').textContent;
+                  playSong(songName);
+                });
+              });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log('Error:', error);
+        }
+    });
+});
+//--------------------------//
+
+//--Chức năng like bài hát--//
+btnLike.addEventListener('click', function() {
+  const songName = this.getAttribute('data-song');
+  const url = `/likeSong/${songName}`;
+  fetch(url, {
+    method: 'POST'
+  })
+  .then(response => response.text())
+  .then(data => {
+    // Cập nhật giao diện nút thích tương ứng với trạng thái mới của bài hát
+        if (data === 'Added to liked songs') {
+           alert('Đã yêu thích ' + songName)
+          this.innerHTML = '<i class="fa-solid fa-heart" style="color: #ffa200;"></i>';
+        } else if (data === 'Removed from liked songs') {
+           alert('Đã bỏ yêu thích ' + songName)
+          this.innerHTML = '<i class="far fa-heart"></i>';
+        }
+  })
+  .catch(error => {
+    console.error(error);
+  });
+});
+//--------------------------//
+
+//--Chức năng Rating bài hát--//
+// Lấy danh sách các ngôi sao trong modal
+const starElements = document.querySelectorAll('.star-rate');
+let songStart = 0;
+// Thêm sự kiện cho từng ngôi sao
+starElements.forEach((star, index) => {
+  star.addEventListener('mouseover', function() {
+    // Tô vàng các ngôi sao từ 0 đến ngôi sao được hover
+    for (let i = 0; i <= index; i++) {
+      starElements[i].classList.replace('fa-regular', 'fa-solid');
+      songStart = star.dataset.value;
+    }
+  });
+
+  star.addEventListener('mouseout', function() {
+    // Xóa màu của các ngôi sao khi không hover nữa
+    for (let i = 0; i < starElements.length; i++) {
+      if (i > index) {
+        starElements[i].classList.replace('fa-solid', 'fa-regular');
+        
+      }
+    }
+  });
+});
+
+// Lấy nút rate và thêm sự kiện click
+const rateBtn = document.querySelector('.rate');
+const songNameRate = document.querySelector('.song-name-in-rating').textContent;
+console.log(songNameRate)
+const url1 = `songRate/${encodeURIComponent(songNameRate)}`;
+rateBtn.addEventListener('click', function() {
+  // Lấy số sao được đánh giá
+  const rating = songStart;
+
+  // Gửi đánh giá lên server
+  $.ajax({
+    url: url1,
+    type: 'POST',
+    data: { rating: rating },
+    success: function(response) {
+      // Đóng modal
+      $('#rate-a-song').modal('hide');
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.log("Errors:", textStatus, errorThrown);
+    }
+  });
+});
+//--------------------------//
+
+$('button[data-bs-target="#edit-song-modal"]').on('click', function (event) {
+        var button = $(event.currentTarget); // Button that triggered the modal
+        var songId = button.data('id'); // Extract comment ID from data-* attributes
+        $.getJSON('/admin/song/' + songId)
+            .done(function (songs) {
+                $('#song_id').val(songs._id);
+                $('#edit_song_name').val(songs.song_name);
+                $('#edit_genre_name option').each(function() {
+                    if ($(this).val() === songs.genre_name) {
+                        $(this).prop('selected', true);
+                    }
+                });
+                $('#edit_artists_id_edit_song').val(null);
+                $.each(songs.artists_id, function (index, artist) {
+                    $('#edit_artists_id_edit_song option[value="' + artist._id + '"]').prop('selected', true);
+                });
+                $('#edit_artists_id_edit_song').trigger('change');
+                $('#edit_song_duration').val(songs.song_duration);
+                $('#edit_song_rating').val(songs.song_rating_star_total);
+                $('#edit-song-modal').modal('show');
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+            });
+    });
+    $(document).ready(function () {
+        $('#edit_comment_form').submit(function (event) {
+            event.preventDefault();
+
+            var commentId = $('#comment_id').val();
+            var songId = $('#edit_song_id').val();
+            var userId = $('#edit_user_id').val();
+            var message = $('#edit_message').val();
+            var dayCreated = $('#edit_day_created').val();
+
+            $.ajax({
+                type: 'PUT',
+                url: '/admin/edit-comment',
+                data: {
+                    comment_id: commentId,
+                    edit_song_id: songId,
+                    edit_user_id: userId,
+                    edit_message: message,
+                    edit_day_created: dayCreated
+                },
+                beforeSend: function() {
+                    // show the loading bar
+                      $('#loading-bar').show();
+                },
+                success: function (data) {
+                    setTimeout(function() {
+                        console.log('Comment updated:', data);
+                        window.location.href = '/admin';
+                    }, 3000);
+                },
+                error: function (error) {
+                    console.log('Error updating comment:', error);
+                },
+                complete: function() {
+                // hide the loading bar after 5 seconds
+                      $('#loading-bar').removeClass('active');
+                }
+            });
+        });
+        $('#delete-comment').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var commentId = button.data('id'); // Extract comment id from data-id attribute
+            var modal = $(this);
+            modal.find('#delete-comment-btn').on('click', function () {
+                // Send a DELETE request to the server to delete the comment
+                $.ajax({
+                    url: '/admin/delete-comment/' + commentId,
+                    type: 'DELETE',
+                    success: function (result) {
+                        // Redirect to the admin page after successful deletion
+                        window.location.href = '/admin';
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            });
+        });
+        $('#delete-song').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var songId = button.data('id'); // Extract comment id from data-id attribute
+            var modal = $(this);
+            modal.find('#delete-song-btn').on('click', function () {
+                // Send a DELETE request to the server to delete the comment
+                $.ajax({
+                    url: '/admin/delete-song/' + songId,
+                    type: 'DELETE',
+                    success: function (result) {
+                        // Redirect to the admin page after successful deletion
+                        window.location.href = '/admin';
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            });
+        });
+        $('#edit_song_form').submit(function (event) {
+            event.preventDefault();
+
+            var songFormData = new FormData($('#edit_song_form')[0]);
+
+            $.ajax({
+                type: 'PUT',
+                url: '/admin/edit-song',
+                data: songFormData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    console.log('Song updated:', data);
+                    window.location.href = '/admin';
+                },
+                error: function (error) {
+                    console.log('Error updating song:', error);
+                }
+            });
+        });
+        $('button[data-bs-target="#edit-comment"]').on('click', function (event) {
+        var button = $(event.currentTarget); // Button that triggered the modal
+        var commentId = button.data('id'); // Extract comment ID from data-* attributes
+        $.getJSON('admin/comment/' + commentId)
+            .done(function (comments) {
+                $('#comment_id').val(comments._id);
+                $('#edit_song_id option').each(function() {
+                    if ($(this).val() === comments.song_name) {
+                        $(this).prop('selected', true);
+                    }
+                });
+                $('#edit_user_id option').each(function() {
+                    if ($(this).val() === comments.user_id._id) {
+                        $(this).prop('selected', true);
+                    }
+                });
+                $('#edit_message').val(comments.message);
+                var date = new Date(comments.day_created);
+                var formattedDate = date.toISOString().substring(0, 10);
+                $('#edit_day_created').val(formattedDate);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+            });
+    });
+    });
+    $('#artists_id_add_new_song').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    {{!-- $('#edit_artists_id_edit_song').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    }); --}}
+
+    $('#songs_id_add_new_artist').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#songs_id_edit_artist').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#albums_id_add_new_artist').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#albums_id_edit_artist').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#songs_id_add_new_playlist').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#songs_id_edit_playlist').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+
+
+    $('#songs_id_add_new_album').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#songs_id_edit_album').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+
+    $('#songs_id_add_new_genre').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#songs_id_edit_genre').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#liked_songs_add_new_user').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#liked_albums_add_new_user').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#created_playlists_add_new_user').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#liked_songs_edit_user').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#liked_albums_edit_user').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#created_playlists_edit_user').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+
+
+ </script>
+
+</html>

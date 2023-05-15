@@ -1,0 +1,83 @@
+{{#each song}}
+<div class="container rating-page" data-aos="fade-left">
+    <div class="intro-box mt-3 rating-box" id="bg">
+        <div class="row">
+            <div class="col-4 col-sm-4 col-md-4 col-lg-3 col-xl-2 mx-auto">
+                <div class="my-card">
+                    <a href="">
+                        <div class="img-holder">
+                            <img src={{song_img}} alt={{song_name}}>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mx-auto">
+                <div class="intro-text-rating text-center">
+                    <a href="">
+                        <div class="song-name-in-rating">{{song_name}}</div>
+                    </a>
+                    {{#each artists_id}}
+                    <span class="artist-name-in-rating">{{artist_name}}</span>
+                    {{/each}}
+
+                </div>
+            </div>
+        </div>
+        <div class="row  rating-main">
+            <div class="col-6 col-sm-4 col-md-5 col-lg-2 col-xl-2" id="current-rating">
+                <i class="fa-solid fa-star star-current"></i><span
+                    class="current-rating">{{song_rating_star_total}}/5</span>
+            </div>
+        </div>
+        <div class="row action-rate">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-5 col-xl-5" id="btn-rate-song">
+                {{!-- This is button create a new playlist --}}
+                <div class="rate-a-song">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn-rate d-flex" data-bs-toggle="modal" data-bs-target="#rate-a-song">
+                        <i class="fa-regular fa-star star-rate"></i><span>Rate</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="rate-a-song" tabindex="-1" aria-labelledby="rate-a-song-ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="height: 70px;">
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="height: 400px;">
+                <img src={{song_img}} alt="">
+                <div class="rate-main-modal d-block mx-auto">
+                    <span style="color: #FF914D;">RATE THIS</span>
+                    <p class="song-name-in-rating">{{song_name}}</p>
+                    {{#each artists_id}}
+                    <p class="artist-name-in-rating">{{artist_name}}</p>
+                    {{/each}}
+                    <br>
+                    <i class="fa-regular fa-star star-rate" data-value="1"></i><i class="fa-regular fa-star star-rate" data-value="2"></i><i
+                        class="fa-regular fa-star star-rate" data-value="3"></i><i class="fa-regular fa-star star-rate" data-value="4"></i><i
+                        class="fa-regular fa-star star-rate" data-value="5"></i>
+                    <br>
+                    <button class="rate">Rate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}
+
+{{!-- animation scroll --}}
+<script>
+    AOS.init();
+</script>

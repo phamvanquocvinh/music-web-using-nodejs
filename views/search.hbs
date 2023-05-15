@@ -1,0 +1,99 @@
+<div class="container" data-aos="fade-down" style="min-height: 100vh; margin-bottom: 70px;">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            {{!-- Recommended : this is a list of playlist--}}
+            <div class="row">
+                <div class="title">
+                    <h3 class="topic">
+                        Top Results
+                    </h3>
+                </div>
+            </div>
+           
+            {{!-- Song --}}
+            <div class="row mt-0">
+                <div class="title">
+                    <h3 class="topic">
+                        Songs
+                    </h3>
+                </div>
+                 {{#each songs}}
+                 
+                <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                    <div class="my-card">
+                        <a id="song-play">
+                            <div class="img-holder">
+                                <img src={{song_img}} alt="">
+                            </div>
+                            <div class="text">
+                                <h5 class="song-name">{{song_name}}</h5>
+                            </div>
+                        </a>
+                        {{#each artists_id}}
+                             <a href="/artists/{{artist_name}}">
+                                <p class="artist-name">{{this.artist_name}}</p>
+                            </a>
+                        {{/each}}
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+
+            {{!-- Albums --}}
+            <div class="row">
+                <div class="title">
+                    <h3 class="topic">
+                        Albums
+                    </h3>
+                </div>
+                {{#each albums}}
+                <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                    <div class="my-card">
+                        <a href="/album-information/{{album_name}}">
+                            <div class="img-holder">
+                                <img src={{album_img}} alt="">
+                            </div>
+                            <div class="text">
+                                <h5 class="album-name">{{album_name}}</h5>
+                            </div>
+                        </a>
+                        <a href="/artists/{{artist_name}}">
+                            <p class="artist-name">{{artist_name}}</p>
+                        </a>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+
+            {{!-- Artists --}}
+            <div class="row">
+                <div class="title">
+                    <h3 class="topic">
+                        Artists
+                    </h3>
+                </div>
+                {{#each artists}}
+                <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                    <div class="artist-card">
+                        <a href="/artists/{{artist_name}}">
+                            <div class="img-artist">
+                                <img src={{artist_img}} alt="">
+                            </div>
+                        </a>
+                        <div class="text">
+                            <a href="/artists/{{artist_name}}">
+                                <h5 class="name-artist">{{artist_name}}</h5>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- animation scroll --}}
+    <script>
+        AOS.init();
+    </script>

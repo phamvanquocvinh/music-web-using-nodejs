@@ -1,0 +1,150 @@
+<div class="container" style="min-height:100vh; margin-bottom: 70px;">
+    <div class="row">
+        <div class="title">
+            <h3 class="topic" style="padding-bottom: 10px;">
+                Library
+            </h3>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#your-playlists" data-bs-toggle="tab">
+                        <h5 class="topic-in-library" style="font-size: 17px;">
+                            Your Playlists
+                        </h5>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#liked-playlists" data-bs-toggle="tab">
+                        <h5 class="topic-in-library" style="font-size: 17px;">
+                            Liked Playlists
+                        </h5>
+                    </a>
+                </li>
+            </ul><br>
+            <div class="row mb-3">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="tab-content">
+                        <div id="your-playlists" class="active tab-pane fade in show">
+                            <div class="row">
+                                {{#each user}}
+                                {{#each created_playlists}}
+                                <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                                    <div class="my-card">
+                                        <a href="/playlist-information/{{playlist_name}}">
+                                            <div class="img-holder">
+                                                <img src={{playlist_img}}
+                                                    alt="">
+                                            </div>
+                                            <div class="text">
+                                                <h5 class="playlist-name">{{playlist_name}}</h5>
+                                                <p class="describe">{{username}}</p>
+                                            </div>
+                                        </a>
+                                        <button class="btn btn-play-hover"><i class="play-pause fas fa-play"></i></button>
+                                    </div>
+                                </div>
+                                {{/each}}
+                                {{/each}}
+                                
+
+                                {{!-- This is button create a new playlist --}}
+                                <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                                    <div class="create-new-playlist">
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                            data-bs-target="#creat-new-playlist">
+                                            <img class="img-create-new-playlist" src="../img/create-new-playlist.png"
+                                                alt="">
+                                        </button>
+                                    </div>
+                                </div>
+                                {{!-- Modal Create New Playlist --}}
+                                <div class="modal fade" id="creat-new-playlist" tabindex="-1"
+                                    aria-labelledby="creat-new-playlist-ModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="creat-new-playlistModalLabel"><img
+                                                        src="img/logo1.png" alt=""> Create new playlist</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="col-auto">
+                                                    <label for="name_playlist" class="col-form-label">Playlist
+                                                        Name</label>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <input type="text" id="name_playlist" class="form-control"
+                                                        aria-describedby="">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn cancel"
+                                                    data-bs-dismiss="modal">Cancel</button>
+                                                <button type="button" class="btn btn-primary create-playlist">Create new
+                                                    playlist</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="liked-playlists" class="tab-pane fade">
+                            <div class="row">
+                                {{#each user}}
+                                {{#each liked_playlists}}
+                                <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                                    <div class="my-card">
+                                        <a href="/playlist-information/{{playlist_name}}">
+                                            <div class="img-holder">
+                                                <img src="{{playlist_img}}"
+                                                    alt="">
+                                            </div>
+                                            <div class="text">
+                                                <h5 class="playlist-name">{{playlist_name}}</h5>
+                                                <p class="describe">{{username}}</p>
+                                            </div>
+                                        </a>
+                                        <button class="btn btn-play-hover"><i class="play-pause fas fa-play"></i></button>
+                                    </div>
+                                </div>
+                                {{/each}}
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    function createNewPlaylist() {
+        const playlistName = document.getElementById('name_playlist').value;
+        if (!playlistName) {
+            alert('Please enter a playlist name');
+            return;
+        }
+        let urlCreatePlaylist = 'library/create-playlist/' + playlistName;
+        $.ajax({
+            url: urlCreatePlaylist,
+            type: 'POST',
+            success: function(response) {
+                alert('Playlist created successfully');
+                $('#creat-new-playlist').modal('hide');
+            },
+                error: function(jqXHR, textStatus, errorThrown) {
+                alert('Failed to create playlist');
+            }
+        });
+    };
+
+    $('.create-playlist').click(function() {
+        createNewPlaylist();
+    });
+</script>

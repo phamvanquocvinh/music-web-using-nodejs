@@ -1,0 +1,126 @@
+<div class="nav-bar">
+  <header>
+    <div class="logo">
+      <a href="/"><img src="/img/logo2.png" alt=""></a>
+    </div>
+    <div class="header-left">
+      <nav>
+        <ul>
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/categories">Categories</a>
+          </li>
+          <li>
+            <a href="/library">Library</a>
+          </li>
+          <li>
+            <a href="/liked-songs">Liked Songs</a>
+          </li>
+          <li>
+            <a href="/premium">Try Premium</a>
+          </li>
+        </ul>
+      </nav>
+      
+          <div class="toggle-container">
+            <input type="checkbox" id="toggle">
+            <label class="toggle" for="toggle">
+              <i class="bx bxs-sun"></i>
+              <i class="bx bx-moon"></i>
+              <span class="ball"></span>
+            </label>
+          </div>
+          
+          <div class="search-container1">
+            <form action="/search/searchKey" method="get">
+              <input type="text" name="q" placeholder="Search something...">
+              <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </form>
+          </div>
+
+    </div>
+    <div class="header-right">
+      {{#unless session.isLoggedIn}}
+      <div class="login-signup">
+        <a href="/login"><button type="button" class="btn btn-Login btn-outline-light me-2">Login</button></a>
+        <a href="/register"><button type="button" class="btn btn-Signup">Sign up</button></a>
+      </div>
+      {{else}}
+
+      {{!-- if user login successfully, actionbar is active, hidden login and register button --}}
+      <div class="action">
+        <div class="profile" onclick="menuToggle();">
+          <img src={{session.user.user_img}} />
+        </div>
+        <div class="menu">
+          <h3>{{{session.user.user_fullname}}}<br /><span>@{{session.user.username}}</span></h3>
+          <ul>
+            <li>
+              <a href="/profile"><i class="fa fa-user"></i><span id="menu-action1">My profile</span> </a>
+            </li>
+            {{#ifEquals session.user.user_type "admin"}}
+            <li>
+              <a href="/admin"><i class="fa fa-user-cog"></i><span id="menu-action2">Admin</span></a>
+            </li>
+            {{else}}
+            {{/ifEquals}}
+            <li class="a-logout">
+              <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i><span id="menu-action3">Logout</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <script>
+        function menuToggle() {
+          const toggleMenu = document.querySelector(".menu");
+          toggleMenu.classList.toggle("active");
+        }
+      </script>
+      {{/unless}}
+      <div class="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+
+    </div>
+
+  </header>
+
+</div>
+
+<script>
+const body = document.querySelector('body');
+const sunIcon = document.querySelector('.toggle .bxs-sun');
+const moonIcon = document.querySelector('.toggle .bx-moon');
+
+const toggle = document.querySelector('#toggle');
+
+toggle.addEventListener('click', () => {
+});
+let darkMode = localStorage.getItem('darkMode');
+
+if (darkMode === 'enabled') {
+  body.classList.add('dark');
+  toggle.checked = true;
+  sunIcon.classList.replace('bxs-sun', 'bx-sun');
+  moonIcon.classList.replace('bxs-moon', 'bx-moon');
+}
+
+toggle.addEventListener('change', () => {
+  if (toggle.checked) {
+    body.classList.add('dark');
+    sunIcon.classList.replace('bxs-sun', 'bx-sun');
+    moonIcon.classList.replace('bxs-moon', 'bx-moon');
+    localStorage.setItem('darkMode', 'enabled');
+  } else {
+    body.classList.remove('dark');
+    sunIcon.classList.replace('bx-sun', 'bxs-sun');
+    moonIcon.classList.replace('bx-moon', 'bxs-moon');
+    localStorage.setItem('darkMode', 'disabled');
+  }
+});
+
+</script>

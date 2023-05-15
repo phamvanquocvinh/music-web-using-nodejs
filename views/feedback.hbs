@@ -1,0 +1,51 @@
+<div class="feedback-content" data-aos="fade-down" style="min-height:100vh; margin-top: 80px;">
+    <h2>Feedback</h2>
+    <p>Use the form below to send us your comments. We read all feedback carefully, but we are unable to respond to each
+        submission individually. If you provide your email address, you agree that we may contact you to better
+        understand the comments you submitted.</p>
+    <p><small>* Indicates required field.</small></p>
+
+    <div class="form-table">
+        <div class="form-row">
+            <label class="form-cell form-label" for="name">Name*</label>
+            <input class="form-cell form-textbox form-textbox-text" id="customer_name" maxlength="255" type="text"
+                name="name" data-validate="required" required="" v-model="name">
+        </div>
+        <div class="form-message-wrapper" id="customer_name_error">
+            <span class="form-message">Enter your name.</span>
+        </div>
+
+        <div class="form-row">
+            <label class="form-cell form-label" for="email">Email Address*</label>
+            <input class="form-cell form-textbox form-textbox-text" id="customer_email" maxlength="255" type="text"
+                name="email" data-validate="required" required="" v-model="email">
+        </div>
+        <div class="form-message-wrapper" id="customer_address_error">
+            <span class="form-message">Enter a valid or alternate email address.</span>
+        </div>
+
+        <div>
+            <label class="form-cell form-label" for="subject">Subject*</label>
+            <input class="form-cell form-textbox form-textbox-text" id="subject" maxlength="255" type="text"
+                name="subject" data-validate="required" required="" v-model="subject">
+        </div>
+        <div class="form-message-wrapper" id="subject_error">
+            <span class="form-message">Enter a subject.</span>
+        </div>
+
+        <div>
+            <label class="form-label form-cell" for="feedback_comment">Comments*</label>
+            <textarea class="form-cell form-textbox form-textbox-area" id="feedback_comment" maxlength="800"
+                name="feedback_comment" data-validate="required" required="" v-model="comment"></textarea>
+        </div>
+        <div class="form-message-wrapper" id="feedback_comment_error">
+            <span class="form-message">Enter your comment.</span>
+        </div>
+        <button class="button form-button" type="submit" name="submit">Submit Feedback</button>
+    </div>
+</div>
+
+{{!-- animation scroll --}}
+    <script>
+        AOS.init();
+    </script>

@@ -1,0 +1,156 @@
+<div class="container" data-aos="fade-right">
+    <div class="intro-box mt-3" id="bg">
+        <div class="row  flex-container">
+            <div class="col-3 col-sm-3 col-md-4 col-lg-3 col-xl-2">
+                <div class="my-card">
+                    <a href="">
+                        <div class="img-user">
+                            <img src={{user.user_img}} alt="">
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-9 col-sm-9 col-md-8 col-lg-9 col-xl-10">
+                <div class="intro-text">
+                    <p class="hint">Profile</p>
+                    <a href="">
+                        <div class="user-name-in-playlist">{{user.user_fullname}}</div>
+                    </a>
+                    <span class="focus-hint">{{user.username}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{#if error}}
+    <div class="alert alert-danger" style="text-align: center">{{error}}</div>
+    {{/if}}
+    <div class="row mt-4">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <ul class="nav nav-pills justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#profile-info" data-bs-toggle="tab">
+                        <h5 class="topic-in-library" style="font-size: 17px;">
+                            Profile Information
+                        </h5>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#edit-profile" data-bs-toggle="tab">
+                        <h5 class="topic-in-library" style="font-size: 17px;">
+                            Edit Profile
+                        </h5>
+                    </a>
+                </li>
+            </ul><br>
+            <div class="row mb-3">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="tab-content">
+                        <div id="profile-info" class="active tab-pane fade in show">
+                            <div class="section-profile">
+                                <div class="form-box-profile-info" id="bg">
+                                    <div class="form-value">
+                                        <form>
+                                            <div class="inputbox-profile-info">
+                                                <label for="name">Name</label>
+                                                <ion-icon name="person-outline"></ion-icon>
+                                                <input type="text" name="name" value="{{user.user_fullname}}" readonly>
+                                            </div>
+                                            <div class="inputbox-profile-info">
+                                                <label for="username">Username</label>
+                                                <ion-icon name="person-outline"></ion-icon>
+                                                <input type="text" name="username" value="{{user.username}}" readonly>
+                                            </div>
+                                            <div class="inputbox-profile-info">
+                                                <label for="email">Email</label>
+                                                <ion-icon name="mail-outline"></ion-icon>
+                                                <input type="text" name="email" value="{{user.user_email}}" readonly>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="edit-profile" class="tab-pane fade">
+                            <div class="section-profile">
+                                <div class="form-box-edit-profile" id="bg">
+                                    <div class="form-value">
+                                        <form id="edit_profile_form" action="/profile/edit-profile" method="POST">
+                                            <input type="hidden" id="user_id" name="user_id" value={{user._id}}>
+                                            <div class="inputbox">
+                                                <ion-icon name="person-outline"></ion-icon>
+                                                <input type="text" required id ="name" name="name" value="{{user.user_fullname}}" >
+                                                <label for="name">Name</label>
+                                            </div>
+                                            <div class="inputbox-profile-info">
+                                                <label for="username">Username</label>
+                                                <ion-icon name="person-outline"></ion-icon>
+                                                <input type="text" required id="username "name="username" value="{{user.username}}" readonly>
+                                                
+                                            </div>
+                                            <div class="inputbox-profile-info">
+                                                <label for="email">Email</label>
+                                                <ion-icon name="mail-outline"></ion-icon>
+                                                <input type="text" required id="email "name="email" value="{{user.user_email}}" readonly>
+                                                
+                                            </div>
+                                            <div class="inputbox">
+                                                <ion-icon name="lock-closed-outline"></ion-icon>
+                                                <input type="password" id="old_password" required name="old_password">
+                                                <label for="old_pasword">Old Password</label>
+                                            </div>
+                                            <div class="inputbox">
+                                                <ion-icon name="lock-closed-outline"></ion-icon>
+                                                <input type="password" id="new_password" required name="new_password">
+                                                <label for="pasword">New Password</label>
+                                            </div>
+                                            <div class="inputbox">
+                                                <ion-icon name="shield-checkmark-outline"></ion-icon>
+                                                <input type="password" id="confirm_password" required name="confirm_password">
+                                                <label for="confirm_password">Confirm New Password</label>
+                                            </div>
+                                            <button class="button-login-register" type="submit">Update</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- animation scroll --}}
+<script>
+    AOS.init();
+    $(document).ready(function () {
+        $('#edit_profile_form').submit(function (event) {
+            event.preventDefault();
+            var id = $('#user_id').val();
+            var name = $('#name').val();
+            var oldpass = $('#old_password').val();
+            var newpass = $('#new_password').val();
+            var confirmpass = $('#confirm_password').val();
+            $.ajax({
+                type: 'PUT',
+                url: '/profile/edit-profile',
+                data: {
+                    id: id,
+                    name: name,
+                    oldpass: oldpass,
+                    newpass: newpass,
+                    confirmpass: confirmpass,
+                },
+                success: function (data) {
+                    console.log('Song updated:', data);
+                    window.location.href = '/profile';
+                },
+                error: function (error) {
+                    console.log('Error updating user:', error);
+                    window.location.href = '/profile';
+                }
+            });
+        });
+    });
+</script>

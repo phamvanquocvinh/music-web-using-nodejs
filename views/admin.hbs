@@ -1,0 +1,1501 @@
+<!-- Styles -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+<link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+<!-- Or for RTL support -->
+<link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<div class="container" style="min-height: 100vh;">
+    <div class="row">
+        <div class="title">
+            <h3 class="topic" style="padding-bottom: 10px;">
+                Admin Management
+            </h3>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#songs-manage" data-bs-toggle="tab">
+                        <h5 class="topic-in-library" style="font-size: 17px;">
+                            Songs
+                        </h5>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#artists-manage" data-bs-toggle="tab">
+                        <h5 class="topic-in-library" style="font-size: 17px;">
+                            Artists
+                        </h5>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#playlists-manage" data-bs-toggle="tab">
+                        <h5 class="topic-in-library" style="font-size: 17px;">
+                            Playlists
+                        </h5>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#albums-manage" data-bs-toggle="tab">
+                        <h5 class="topic-in-library" style="font-size: 17px;">
+                            Albums
+                        </h5>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#genres-manage" data-bs-toggle="tab">
+                        <h5 class="topic-in-library" style="font-size: 17px;">
+                            Genres
+                        </h5>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#users-manage" data-bs-toggle="tab">
+                        <h5 class="topic-in-library" style="font-size: 17px;">
+                            Users
+                        </h5>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#comments-manage" data-bs-toggle="tab">
+                        <h5 class="topic-in-library" style="font-size: 17px;">
+                            Comments
+                        </h5>
+                    </a>
+                </li>
+            </ul><br>
+            <div class="row mb-3">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="tab-content">
+                        <div id="songs-manage" class="active tab-pane fade in show">
+                            {{!-- button add new song --}}
+                            <div class="row add-admin">
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#add-new-song"><b>Add new song</b></button>
+                            </div>
+                            {{!-- modal add new song --}}
+                            <div class="modal fade" id="add-new-song" tabindex="-1"
+                                aria-labelledby="add-new-song-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="add-new-song-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Add new song</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/admin/add-song" enctype="multipart/form-data" method="post">
+                                                <label for="song_name" class="form-label">Song Name</label>
+                                                <input type="text" class="form-control" id="song_name" name="song_name"
+                                                    placeholder="Song Name">
+
+                                                <label class="form-label mt-3" for="artists_id_add_new_song">Artists
+                                                    Name</label>
+                                                <select class="form-select" multiple id="artists_id_add_new_song"
+                                                    name="artists_name" data-placeholder="Artists Name">
+                                                    {{#each artists}}
+                                                    <option value={{_id}}>{{artist_name}}</option>
+                                                    {{/each}}
+                                                </select>
+
+                                                <label class="form-label mt-3" for="song_genre">Genre Name</label>
+                                                <select class="form-select" id="genre_name" name="genre_name">
+                                                    {{#each genre}}
+                                                    <option value="{{genre_name}}">{{genre_name}}</option>
+                                                    {{/each}}
+                                                </select>
+
+                                                <label for="song_path" class="form-label mt-3">Song Path</label>
+                                                <input class="form-control" type="file" id="song_path" name="song_path">
+
+                                                <label for="song_img" class="form-label mt-3">Song Image</label>
+                                                <input class="form-control" type="file" id="song_img" name="song_img">
+
+                                                <label for="song_lyric" class="form-label mt-3">Song Lyrics</label>
+                                                <input class="form-control" type="file" id="song_lyric"
+                                                    name="song_lyric">
+
+                                                <label for="song_duration" class="form-label mt-3">Song Duration</label>
+                                                <input class="form-control" type="text" id="song_duration"
+                                                    name="song_duration" placeholder="00:00">
+
+                                                <label for="song_rating_star_total" class="form-label mt-3">Rating Star
+                                                    Total</label>
+                                                <input class="form-control" type="text" id="song_rating"
+                                                    name="song_rating" placeholder="0.0">
+                                                <hr>
+                                                <button type="button" class="btn cancel"
+                                                    data-bs-dismiss="modal">Cancel</button>
+                                                <input type="submit" class="btn btn-warning"></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- table manage song --}}
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <table class="table table-striped table-hover">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Song Name</th>
+                                                <th>Artists Name</th>
+                                                <th>Genre Name</th>
+                                                <th>Song Duration</th>
+                                                <th>Rating Star Total</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each songs}}
+                                            <tr>
+                                                <th scope="row">{{inc @index}}</th>
+                                                <td>{{song_name}}</td>
+                                                <td>{{#each artists_id}}
+                                                    {{artist_name}}</br>
+                                                    {{/each}}
+                                                </td>
+                                                <td>{{genre_name}}</td>
+                                                <td>{{song_duration}}</td>
+                                                <td>{{song_rating_star_total}}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-id={{this._id}}
+                                                        data-bs-target="#delete-song"><i
+                                                            class="fa-solid fa-trash"></i></button>
+                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                        data-id={{this._id}} data-bs-target="#edit-song-modal"><i
+                                                            class="fa-solid fa-pen"></i></button>
+                                                </td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            {{!-- modal delete song --}}
+                            <div class="modal fade" id="delete-song" tabindex="-1"
+                                aria-labelledby="delete-song-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="delete-song-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Delete song</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Do you want to delete this song?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn cancel"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" id="delete-song-btn" class="btn btn-warning">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- modal edit song --}}
+                            <div class="modal fade" id="edit-song-modal" tabindex="-1"
+                                aria-labelledby="edit-song-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="edit-song-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Edit song</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/admin/edit-song" id="edit_song_form" enctype="multipart/form-data" method="POST">
+                                                <input type="hidden" name="_method" value="PUT">
+                                                <input type="hidden" id="song_id" name="song_id">
+                                                <label for="edit_song_name" class="form-label">Song Name</label>
+                                                <input type="text" class="form-control" id="edit_song_name"
+                                                    name="edit_song_name" placeholder="Song Name">
+
+                                                <label class="form-label mt-3" for="edit_artists_id_edit_song">Artists
+                                                    Name</label>
+                                                <select class="form-select" multiple id="edit_artists_id_edit_song"
+                                                    name="edit_artists_name" data-placeholder="Artists Name">
+                                                    {{#each artists}}
+                                                    <option value={{_id}}>{{artist_name}}</option>
+                                                    {{/each}}
+                                                </select>
+
+                                                <label class="form-label mt-3" for="edit_genre_name">Genre
+                                                    Name</label>
+                                                <select class="form-select" id="edit_genre_name" name="edit_genre_name">
+                                                    {{#each genre}}
+                                                    <option value="{{genre_name}}">{{genre_name}}</option>
+                                                    {{/each}}
+                                                </select>
+
+                                                <label for="edit_song_path" class="form-label mt-3">Song
+                                                    Path</label>
+                                                <input class="form-control" type="file" id="edit_song_path"
+                                                    name="edit_song_path">
+
+                                                <label for="edit_song_img" class="form-label mt-3">Song
+                                                    Image</label>
+                                                <input class="form-control" type="file" id="edit_song_img"
+                                                    name="edit_song_img">
+
+                                                <label for="edit_song_lyric" class="form-label mt-3">Song
+                                                    Lyrics</label>
+                                                <input class="form-control" type="file" id="edit_song_lyric"
+                                                    name="edit_song_lyric">
+
+                                                <label for="edit_song_duration" class="form-label mt-3">Song
+                                                    Duration</label>
+                                                <input class="form-control" type="text" id="edit_song_duration"
+                                                    name="edit_song_duration" placeholder="00:00">
+
+                                                <label for="edit_song_rating" class="form-label mt-3">Rating Star
+                                                    Total</label>
+                                                <input class="form-control" type="text" id="edit_song_rating"
+                                                    name="edit_song_rating" placeholder="0.0">
+                                                <hr>
+                                                <button type="button" class="btn cancel" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-warning">Update</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="artists-manage" class="tab-pane fade">
+                            {{!-- button add new artist --}}
+                            <div class="row add-admin">
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#add-new-artist"><b>Add new artist</b></button>
+                            </div>
+                            {{!-- modal add new artist --}}
+                            <div class="modal fade" id="add-new-artist" tabindex="-1"
+                                aria-labelledby="add-new-artist-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="add-new-artist-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Add new artist</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/admin/add-artist" enctype="multipart/form-data"
+                                                method="POST">
+                                                <label for="artist_name" class="form-label">Artist Name</label>
+                                                <input type="text" class="form-control" id="artist_name"
+                                                    name="artist_name" placeholder="Artist Name">
+
+                                                <label for="artist_img" class="form-label mt-3">Artist Image</label>
+                                                <input class="form-control" type="file" id="artist_img"
+                                                    name="artist_img">
+
+                                                <label for="monthly_listeners" class="form-label mt-3">Monthly
+                                                    Listener</label>
+                                                <input class="form-control" type="text" id="monthly_listeners"
+                                                    name="monthly_listeners" placeholder="0">
+
+                                                <label class="form-label mt-3" for="songs_id_add_new-artist">Songs
+                                                    Name</label>
+                                                <select class="form-select" multiple id="songs_id_add_new_artist"
+                                                    name="songs_name" data-placeholder="Songs Name">
+                                                    {{#each songs}}
+                                                    <option value={{_id}}>{{song_name}}</option>
+                                                    {{/each}}
+                                                </select>
+
+                                                <label class="form-label mt-3" for="albums_id_add_new-artist">Albums
+                                                    Name</label>
+                                                <select class="form-select" multiple id="albums_id_add_new_artist"
+                                                    name="albums_name" data-placeholder="Albums Name">
+                                                    {{#each albums}}
+                                                    <option value={{_id}}>{{album_name}}</option>
+                                                    {{/each}}
+                                                </select>
+                                                <hr>
+                                                <button type="button" class="btn cancel"
+                                                    data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-warning">Add</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- table manage artist --}}
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <table class="table table-striped table-hover">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Artist Name</th>
+                                                <th>Monthly Listeners</th>
+                                                <th>Songs Name</th>
+                                                <th>Albums Name</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each artists}}
+                                            <tr>
+                                                <th scope="row">{{inc @index}}</th>
+                                                <td>{{artist_name}}</td>
+                                                <td>{{monthly_listeners}}</td>
+                                                <td>{{#each songs_id}}
+                                                    {{song_name}}</br>
+                                                    {{/each}}
+                                                </td>
+                                                <td>
+                                                    {{#each albums_id}}
+                                                    {{album_name}}</br>
+                                                    {{/each}}
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                        data-bs-target="#delete-artist"><i
+                                                            class="fa-solid fa-trash"></i></button>
+                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                        data-bs-target="#edit-artist"><i
+                                                            class="fa-solid fa-pen"></i></button>
+                                                </td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            {{!-- modal delete artist --}}
+                            <div class="modal fade" id="delete-artist" tabindex="-1"
+                                aria-labelledby="delete-artist-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="delete-artist-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Delete artist</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Do you want to delete this artist?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn cancel"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-warning">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- modal edit artist --}}
+                            <div class="modal fade" id="edit-artist" tabindex="-1"
+                                aria-labelledby="edit-artist-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="edit-artist-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Edit artist</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="">
+                                                <label for="artist_name" class="form-label">Artist Name</label>
+                                                <input type="text" class="form-control" id="artist_name"
+                                                    placeholder="Artist Name">
+
+                                                <label for="artist_img" class="form-label mt-3">Artist Image</label>
+                                                <input class="form-control" type="file" id="artist_img">
+
+                                                <label for="monthly_listeners" class="form-label mt-3">Monthly
+                                                    Listener</label>
+                                                <input class="form-control" type="text" id="monthly_listeners"
+                                                    placeholder="0">
+
+                                                <label class="form-label mt-3" for="songs_id_edit-artist">Songs
+                                                    Name</label>
+                                                <select class="form-select" multiple id="songs_id_edit_artist"
+                                                    data-placeholder="Songs Name">
+                                                    <option value="1">One</option>
+                                                    <option value="2">Two</option>
+                                                    <option value="3">Three</option>
+                                                </select>
+
+                                                <label class="form-label mt-3" for="albums_id_edit-artist">Albums
+                                                    Name</label>
+                                                <select class="form-select" multiple id="albums_id_edit_artist"
+                                                    data-placeholder="Albums Name">
+                                                    <option value="1">One</option>
+                                                    <option value="2">Two</option>
+                                                    <option value="3">Three</option>
+                                                </select>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn cancel"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-warning">Update</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="playlists-manage" class="tab-pane fade">
+                            {{!-- button add new playlist --}}
+                            <div class="row add-admin">
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#add-new-playlist"><b>Add new playlist</b></button>
+                            </div>
+                            {{!-- modal add new playlist --}}
+                            <div class="modal fade" id="add-new-playlist" tabindex="-1"
+                                aria-labelledby="add-new-playlist-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="add-new-playlist-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Add new playlist</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/admin/add-playlist" enctype="multipart/form-data"
+                                                method="post">
+                                                <label for="playlist_name" class="form-label">Playlist Name</label>
+                                                <input type="text" class="form-control" id="playlist_name"
+                                                    name="playlist_name" placeholder="Playlist Name">
+
+                                                <label for="playlist_img" class="form-label mt-3">Playlist Image</label>
+                                                <input class="form-control" type="file" id="playlist_img"
+                                                    name="playlist_img">
+
+                                                <label class="form-label mt-3" for="songs_id_add_new_playlist">Songs
+                                                    Name</label>
+                                                <select class="form-select" multiple id="songs_id_add_new_playlist"
+                                                    name="songs_name" data-placeholder="Songs Name">
+                                                    {{#each songs}}
+                                                    <option value={{_id}}>{{song_name}}</option>
+                                                    {{/each}}
+                                                </select>
+                                                <hr>
+                                                <button type="button" class="btn cancel"
+                                                    data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-warning">Add</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- table manage playlist --}}
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <table class="table table-striped table-hover">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Playlist Name</th>
+                                                <th>Songs Name</th>
+                                                <th>Username</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each playlists}}
+                                            <tr>
+                                                <th scope="row">{{inc @index}}</th>
+                                                <td>{{playlist_name}}</td>
+                                                <td>
+                                                    {{#each songs_id}}
+                                                    {{song_name}}</br>
+                                                    {{/each}}
+                                                </td>
+                                                <td>{{username}}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                        data-bs-target="#delete-playlist"><i
+                                                            class="fa-solid fa-trash"></i></button>
+                                                    <button type="button" class="btn btn-warning"><i
+                                                            class="fa-solid fa-pen" data-bs-toggle="modal"
+                                                            data-bs-target="#edit-playlist"></i></button>
+                                                </td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            {{!-- modal delete playlist --}}
+                            <div class="modal fade" id="delete-playlist" tabindex="-1"
+                                aria-labelledby="delete-playlist-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="delete-playlist-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Delete playlist</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Do you want to delete this playlist?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn cancel"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-warning">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- modal edit playlist --}}
+                            <div class="modal fade" id="edit-playlist" tabindex="-1"
+                                aria-labelledby="edit-playlist-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="edit-playlist-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Edit playlist</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="">
+                                                <label for="playlist_name" class="form-label">Playlist Name</label>
+                                                <input type="text" class="form-control" id="playlist_name"
+                                                    placeholder="Playlist Name">
+
+                                                <label for="playlist_img" class="form-label mt-3">Playlist Image</label>
+                                                <input class="form-control" type="file" id="playlist_img">
+
+                                                <label class="form-label mt-3" for="songs_id_edit_playlist">Songs
+                                                    Name</label>
+                                                <select class="form-select" multiple id="songs_id_edit_playlist"
+                                                    data-placeholder="Songs Name">
+                                                    <option value="1">One</option>
+                                                    <option value="2">Two</option>
+                                                    <option value="3">Three</option>
+                                                </select>
+
+                                                <label for="Username" class="form-label mt-3">Username</label>
+                                                <input type="text" class="form-control" id="username"
+                                                    placeholder="Username">
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn cancel"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-warning">Update</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="albums-manage" class="tab-pane fade">
+                            {{!-- button add new album --}}
+                            <div class="row add-admin">
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#add-new-album"><b>Add new album</b></button>
+                            </div>
+                            {{!-- modal add new album --}}
+                            <div class="modal fade" id="add-new-album" tabindex="-1"
+                                aria-labelledby="add-new-album-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="add-new-album-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Add new album</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/admin/add-album" method="Post" enctype="multipart/form-data">
+                                                <label for="album_name" class="form-label">Album Name</label>
+                                                <input type="text" class="form-control" id="album_name"
+                                                    name="album_name" placeholder="Album Name">
+
+                                                <label for="album_img" class="form-label mt-3">Album Image</label>
+                                                <input class="form-control" type="file" id="album_img" name="album_img">
+
+                                                <label class="form-label mt-3" for="artist_name">Artist Name</label>
+                                                <select class="form-select" id="artist_name" name="artist_name">
+                                                    {{#each artists}}
+                                                    <option value="{{artist_name}}">{{artist_name}}</option>
+                                                    {{/each}}
+                                                </select>
+
+                                                <label class="form-label mt-3" for="songs_id_add_new_album">Songs
+                                                    Name</label>
+                                                <select class="form-select" multiple id="songs_id_add_new_album"
+                                                    name="songs_name" data-placeholder="Songs Name">
+                                                    {{#each songs}}
+                                                    <option value={{_id}}>{{song_name}}</option>
+                                                    {{/each}}
+                                                </select>
+                                                <hr>
+                                                <button type="button" class="btn cancel"
+                                                    data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-warning">Add</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- table manage album --}}
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <table class="table table-striped table-hover">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Album Name</th>
+                                                <th>Artist Name</th>
+                                                <th>Songs Name</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each albums}}
+                                            <tr>
+                                                <th scope="row">{{inc @index}}</th>
+                                                <td>{{album_name}}</td>
+                                                <td>{{artist_name}}</td>
+                                                <td>
+                                                    {{#each songs_id}}
+                                                    {{song_name}}</br>
+                                                    {{/each}}
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                        data-bs-target="#delete-album"><i
+                                                            class="fa-solid fa-trash"></i></button>
+                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                        data-bs-target="#edit-album"><i
+                                                            class="fa-solid fa-pen"></i></button>
+                                                </td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            {{!-- modal delete album --}}
+                            <div class="modal fade" id="delete-album" tabindex="-1"
+                                aria-labelledby="delete-album-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="delete-album-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Delete album</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Do you want to delete this album?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn cancel"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-warning">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- modal edit album --}}
+                            <div class="modal fade" id="edit-album" tabindex="-1"
+                                aria-labelledby="edit-album-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="edit-album-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Edit album</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="">
+                                                <label for="album_name" class="form-label">Album Name</label>
+                                                <input type="text" class="form-control" id="album_name"
+                                                    placeholder="Album Name">
+
+                                                <label for="album_img" class="form-label mt-3">Album Image</label>
+                                                <input class="form-control" type="file" id="album_img">
+
+                                                <label class="form-label mt-3" for="artist_name">Artist Name</label>
+                                                <select class="form-select" id="artist_name">
+                                                    <option value="1">One</option>
+                                                    <option value="2">Two</option>
+                                                    <option value="3">Three</option>
+                                                </select>
+
+                                                <label class="form-label mt-3" for="songs_id_edit_album">Songs
+                                                    Name</label>
+                                                <select class="form-select" multiple id="songs_id_edit_album"
+                                                    data-placeholder="Songs Name">
+                                                    <option value="1">One</option>
+                                                    <option value="2">Two</option>
+                                                    <option value="3">Three</option>
+                                                </select>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn cancel"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-warning">Update</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="genres-manage" class="tab-pane fade">
+                            {{!-- button add new genre --}}
+                            <div class="row add-admin">
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#add-new-genre"><b>Add new genre</b></button>
+                            </div>
+                            {{!-- modal add new genre --}}
+                            <div class="modal fade" id="add-new-genre" tabindex="-1"
+                                aria-labelledby="add-new-genre-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="add-new-genre-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Add new genre</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="">
+                                                <label for="genre_name" class="form-label">Genre Name</label>
+                                                <input type="text" class="form-control" id="genre_name"
+                                                    placeholder="Genre Name">
+
+                                                <label class="form-label mt-3" for="songs_id_add_new_genre">Songs
+                                                    Name</label>
+                                                <select class="form-select" multiple id="songs_id_add_new_genre"
+                                                    data-placeholder="Songs Name">
+                                                    <option value="1">One</option>
+                                                    <option value="2">Two</option>
+                                                    <option value="3">Three</option>
+                                                </select>
+
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn cancel"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-warning">Add</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- table manage genre --}}
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <table class="table table-striped table-hover">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Genre Name</th>
+                                                <th>Songs Name</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each genre}}
+                                            <tr>
+                                                <th scope="row">{{inc @index}}</th>
+                                                <td>{{genre_name}}</td>
+                                                <td>
+                                                    {{#each songs_id}}
+                                                    {{song_name}}</br>
+                                                    {{/each}}
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                        data-bs-target="#delete-genre"><i
+                                                            class="fa-solid fa-trash"></i></button>
+                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                        data-bs-target="#edit-genre"><i
+                                                            class="fa-solid fa-pen"></i></button>
+                                                </td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            {{!-- modal delete genre --}}
+                            <div class="modal fade" id="delete-genre" tabindex="-1"
+                                aria-labelledby="delete-genre-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="delete-genre-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Delete genre</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Do you want to delete this genre?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn cancel"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-warning">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- modal edit genre --}}
+                            <div class="modal fade" id="edit-genre" tabindex="-1"
+                                aria-labelledby="edit-genre-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="edit-genre-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Edit genre</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="">
+                                                <label for="genre_name" class="form-label">Genre Name</label>
+                                                <input type="text" class="form-control" id="genre_name"
+                                                    placeholder="Genre Name">
+
+                                                <label class="form-label mt-3" for="songs_id_edit_genre">Songs
+                                                    Name</label>
+                                                <select class="form-select" multiple id="songs_id_edit_genre"
+                                                    data-placeholder="Songs Name">
+                                                    <option value="1">One</option>
+                                                    <option value="2">Two</option>
+                                                    <option value="3">Three</option>
+                                                </select>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn cancel"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-warning">Update</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="users-manage" class="tab-pane fade">
+                            {{!-- button add new user --}}
+                            <div class="row add-admin">
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#add-new-user"><b>Add new user</b></button>
+                            </div>
+                            {{!-- modal add new user --}}
+                            <div class="modal fade" id="add-new-user" tabindex="-1"
+                                aria-labelledby="add-new-user-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="add-new-user-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Add new user</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/admin/add-user" enctype="multipart/form-data" method="post">
+                                                <label for="username" class="form-label">Username</label>
+                                                <input type="text" class="form-control" id="username" name="username"
+                                                    placeholder="Username">
+
+                                                <label for="user_fullname" class="form-label mt-3">User Fullname</label>
+                                                <input class="form-control" type="text" id="user_fullname"
+                                                    name="user_fullname" placeholder="Fullname">
+
+                                                <label for="user_email" class="form-label mt-3">User Email</label>
+                                                <input class="form-control" type="email" id="user_email"
+                                                    name="user_email" placeholder="Email">
+
+                                                <label for="user_password" class="form-label mt-3">User Password</label>
+                                                <input class="form-control" type="password" id="user_password"
+                                                    name="user_password" placeholder="Password">
+
+                                                <label class="form-label mt-3" for="user_type">User Type</label>
+                                                <select class="form-select" id="user_type" name="user_type">
+                                                    <option value="user">User</option>
+                                                    <option value="admin">Admin</option>
+                                                </select>
+
+                                                <label class="form-label mt-3" for="premium">Premium</label>
+                                                <select class="form-select" id="premium" name="premium">
+                                                    <option value="false">False</option>
+                                                    <option value="true">True</option>
+                                                </select>
+                                                <hr>
+                                                <button type="button" class="btn cancel"
+                                                    data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-warning">Add</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- table manage genre --}}
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <table class="table table-striped table-hover">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Username</th>
+                                                <th>User Fullname</th>
+                                                <th>User Email</th>
+                                                <th>User Type</th>
+                                                <th>Premium</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each users}}
+                                            <tr>
+                                                <th scope="row">{{inc @index}}</th>
+                                                <td>{{username}}</td>
+                                                <td>{{user_fullname}}</td>
+                                                <td>{{user_email}}</td>
+                                                <td>{{user_type}}</td>
+                                                <td>{{premium}}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                        data-bs-target="#delete-user"><i
+                                                            class="fa-solid fa-trash"></i></button>
+                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                        data-bs-target="#edit-user"><i
+                                                            class="fa-solid fa-pen"></i></button>
+                                                </td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            {{!-- modal delete user --}}
+                            <div class="modal fade" id="delete-user" tabindex="-1"
+                                aria-labelledby="delete-user-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="delete-user-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Delete user</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Do you want to delete this user?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn cancel"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-warning">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- modal edit user --}}
+                            <div class="modal fade" id="edit-user" tabindex="-1" aria-labelledby="edit-user-ModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="edit-user-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Edit user</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="">
+                                                <label for="username" class="form-label">Username</label>
+                                                <input type="text" class="form-control" id="username"
+                                                    placeholder="Username">
+
+                                                <label for="user_fullname" class="form-label mt-3">User Fullname</label>
+                                                <input class="form-control" type="text" id="user_fullname"
+                                                    placeholder="Fullname">
+
+                                                <label for="user_email" class="form-label mt-3">User Email</label>
+                                                <input class="form-control" type="email" id="user_email"
+                                                    placeholder="Email">
+
+                                                <label for="user_password" class="form-label mt-3">User Password</label>
+                                                <input class="form-control" type="password" id="user_password"
+                                                    placeholder="Password">
+
+                                                <label for="user_img" class="form-label mt-3">User Image</label>
+                                                <input class="form-control" type="file" id="user_img">
+
+                                                <label class="form-label mt-3" for="user_type">User Type</label>
+                                                <select class="form-select" id="user_type">
+                                                    <option value="1">User</option>
+                                                    <option value="2">Admin</option>
+                                                </select>
+
+                                                <label class="form-label mt-3" for="premium">Premium</label>
+                                                <select class="form-select" id="premium">
+                                                    <option value="1">False</option>
+                                                    <option value="2">True</option>
+                                                </select>
+
+                                                <label class="form-label mt-3" for="liked_songs_edit_user">Liked
+                                                    Songs</label>
+                                                <select class="form-select" multiple id="liked_songs_edit_user"
+                                                    data-placeholder="Liked Songs">
+                                                    <option value="1">One</option>
+                                                    <option value="2">Two</option>
+                                                    <option value="3">Three</option>
+                                                </select>
+
+                                                <label class="form-label mt-3" for="created_playlists_edit_user">Created
+                                                    Playlist</label>
+                                                <select class="form-select" multiple id="created_playlists_edit_user"
+                                                    data-placeholder="Craeted Playlists">
+                                                    <option value="1">One</option>
+                                                    <option value="2">Two</option>
+                                                    <option value="3">Three</option>
+                                                </select>
+
+                                                <label class="form-label mt-3" for="liked_albums_edit_user">Liked
+                                                    Albums</label>
+                                                <select class="form-select" multiple id="liked_albums_edit_user"
+                                                    data-placeholder="Liked Albums">
+                                                    <option value="1">One</option>
+                                                    <option value="2">Two</option>
+                                                    <option value="3">Three</option>
+                                                </select>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn cancel"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-warning">Update</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="comments-manage" class="tab-pane fade">
+                            {{!-- button add new comment --}}
+                            <div class="row add-admin">
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#add-new-comment"><b>Add new comment</b></button>
+                            </div>
+                            {{!-- modal add new comment --}}
+                            <div class="modal fade" id="add-new-comment" tabindex="-1"
+                                aria-labelledby="add-new-comment-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="add-new-comment-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Add new comment</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/admin/add-comment" method="POST">
+                                                <label class="form-label mt-3" for="song_name">Song Name</label>
+                                                <select class="form-select" id="song_name" name="song_name">
+                                                    {{#each songs}}
+                                                    <option value="{{song_name}}">{{song_name}}</option>
+                                                    {{/each}}
+
+                                                </select>
+                                                <label class="form-label mt-3" for="user_id">Username</label>
+                                                <select class="form-select" id="user_id" name="user_id">
+                                                    {{#each users}}
+                                                    <option value={{_id}}>{{username}}</option>
+                                                    {{/each}}
+                                                </select>
+
+                                                <label for="message" class="form-label mt-3">Message</label>
+                                                <input type="text" class="form-control" id="message" name="message"
+                                                    placeholder="Message">
+
+                                                <label for="day_created" class="form-label mt-3">Day Created</label>
+                                                <input id="day_created" name="day_created" class="form-control"
+                                                    type="date">
+                                                <hr>
+                                                <button type="button" class="btn cancel"
+                                                    data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-warning">Add</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- table manage comment --}}
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <table class="table table-striped table-hover">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Song Name</th>
+                                                <th>Username</th>
+                                                <th>Message</th>
+                                                <th>Day Created</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each comments}}
+                                            <tr>
+                                                <th scope="row">{{inc @index}}</th>
+                                                <td>{{{song_name}}} </td>
+                                                <td>{{{user_id.username}}}</td>
+                                                <td>{{message}}</td>
+                                                <td>{{day_created}}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                        data-id={{this._id}} data-bs-target="#delete-comment"><i
+                                                            class="fa-solid fa-trash"></i></button>
+                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                        data-id={{this._id}} data-bs-target="#edit-comment"><i
+                                                            class="fa-solid fa-pen"></i></button>
+                                                </td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            {{!-- modal delete comment --}}
+                            <div class="modal fade" id="delete-comment" tabindex="-1"
+                                aria-labelledby="delete-comment-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="delete-comment-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Delete comment</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Do you want to delete this comment?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn cancel"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-warning"
+                                                id="delete-comment-btn">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- modal edit comment --}}
+                            <div class="modal fade" id="edit-comment" tabindex="-1"
+                                aria-labelledby="edit-comment-ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="edit-comment-ModalLabel"><img
+                                                    src="/img/logo1.png" alt=""> Edit comment</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="edit_comment_form" action="/admin/edit-comment" method="POST">
+                                                <input type="hidden" name="_method" value="PUT">
+                                                <input type="hidden" id="comment_id" name="comment_id">
+                                                <label class="form-label" for="edit_song_id">Song Name</label>
+                                                <select class="form-select" id="edit_song_id" name="edit_song_id">
+                                                    {{#each songs}}
+                                                    <option value="{{song_name}}">{{song_name}}</option>
+                                                    {{/each}}
+                                                </select>
+
+                                                <label class="form-label mt-3" for="edit_user_id">Username</label>
+                                                <select class="form-select" id="edit_user_id" name="edit_user_id">
+                                                    {{#each users}}
+                                                    <option value={{_id}}>{{username}}</option>
+                                                    {{/each}}
+                                                </select>
+
+                                                <label for="edit_message" class="form-label mt-3">Message</label>
+                                                <input type="text" class="form-control" id="edit_message"
+                                                    name="edit-message" placeholder="Message">
+
+                                                <label for="edit_day_created" class="form-label mt-3">Day
+                                                    Created</label>
+                                                <input id="edit_day_created" name="edit_day_created"
+                                                    class="form-control" type="date" />
+                                                <hr>
+                                                <button type="button" class="btn cancel"
+                                                    data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-warning">Update</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('button[data-bs-target="#edit-song-modal"]').on('click', function (event) {
+        var button = $(event.currentTarget); // Button that triggered the modal
+        var songId = button.data('id'); // Extract comment ID from data-* attributes
+        $.getJSON('/admin/song/' + songId)
+            .done(function (songs) {
+                $('#song_id').val(songs._id);
+                $('#edit_song_name').val(songs.song_name);
+                $('#edit_genre_name option').each(function() {
+                    if ($(this).val() === songs.genre_name) {
+                        $(this).prop('selected', true);
+                    }
+                });
+                $('#edit_artists_id_edit_song').val(null);
+                $.each(songs.artists_id, function (index, artist) {
+                    $('#edit_artists_id_edit_song option[value="' + artist._id + '"]').prop('selected', true);
+                });
+                $('#edit_artists_id_edit_song').trigger('change');
+                $('#edit_song_duration').val(songs.song_duration);
+                $('#edit_song_rating').val(songs.song_rating_star_total);
+                $('#edit-song-modal').modal('show');
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+            });
+    });
+    $(document).ready(function () {
+        $('#edit_comment_form').submit(function (event) {
+            event.preventDefault();
+
+            var commentId = $('#comment_id').val();
+            var songId = $('#edit_song_id').val();
+            var userId = $('#edit_user_id').val();
+            var message = $('#edit_message').val();
+            var dayCreated = $('#edit_day_created').val();
+
+            $.ajax({
+                type: 'PUT',
+                url: '/admin/edit-comment',
+                data: {
+                    comment_id: commentId,
+                    edit_song_id: songId,
+                    edit_user_id: userId,
+                    edit_message: message,
+                    edit_day_created: dayCreated
+                },
+                success: function (data) {
+                    console.log('Comment updated:', data);
+                    window.location.href = '/admin';
+                },
+                error: function (error) {
+                    console.log('Error updating comment:', error);
+                }
+            });
+        });
+        $('#delete-comment').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var commentId = button.data('id'); // Extract comment id from data-id attribute
+            var modal = $(this);
+            modal.find('#delete-comment-btn').on('click', function () {
+                // Send a DELETE request to the server to delete the comment
+                $.ajax({
+                    url: '/admin/delete-comment/' + commentId,
+                    type: 'DELETE',
+                    success: function (result) {
+                        // Redirect to the admin page after successful deletion
+                        window.location.href = '/admin';
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            });
+        });
+        $('#delete-song').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var songId = button.data('id'); // Extract comment id from data-id attribute
+            var modal = $(this);
+            modal.find('#delete-song-btn').on('click', function () {
+                // Send a DELETE request to the server to delete the comment
+                $.ajax({
+                    url: '/admin/delete-song/' + songId,
+                    type: 'DELETE',
+                    success: function (result) {
+                        // Redirect to the admin page after successful deletion
+                        window.location.href = '/admin';
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            });
+        });
+        $('#edit_song_form').submit(function (event) {
+            event.preventDefault();
+
+            var songFormData = new FormData($('#edit_song_form')[0]);
+
+            $.ajax({
+                type: 'PUT',
+                url: '/admin/edit-song',
+                data: songFormData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    console.log('Song updated:', data);
+                    window.location.href = '/admin';
+                },
+                error: function (error) {
+                    console.log('Error updating song:', error);
+                }
+            });
+        });
+        $('button[data-bs-target="#edit-comment"]').on('click', function (event) {
+        var button = $(event.currentTarget); // Button that triggered the modal
+        var commentId = button.data('id'); // Extract comment ID from data-* attributes
+        $.getJSON('admin/comment/' + commentId)
+            .done(function (comments) {
+                $('#comment_id').val(comments._id);
+                $('#edit_song_id option').each(function() {
+                    if ($(this).val() === comments.song_name) {
+                        $(this).prop('selected', true);
+                    }
+                });
+                $('#edit_user_id option').each(function() {
+                    if ($(this).val() === comments.user_id._id) {
+                        $(this).prop('selected', true);
+                    }
+                });
+                $('#edit_message').val(comments.message);
+                var date = new Date(comments.day_created);
+                var formattedDate = date.toISOString().substring(0, 10);
+                $('#edit_day_created').val(formattedDate);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+            });
+    });
+    });
+    $('#artists_id_add_new_song').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    {{!-- $('#edit_artists_id_edit_song').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    }); --}}
+
+    $('#songs_id_add_new_artist').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#songs_id_edit_artist').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#albums_id_add_new_artist').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#albums_id_edit_artist').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#songs_id_add_new_playlist').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#songs_id_edit_playlist').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+
+
+    $('#songs_id_add_new_album').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#songs_id_edit_album').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+
+    $('#songs_id_add_new_genre').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#songs_id_edit_genre').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#liked_songs_add_new_user').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#liked_albums_add_new_user').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#created_playlists_add_new_user').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#liked_songs_edit_user').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#liked_albums_edit_user').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+    $('#created_playlists_edit_user').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    });
+</script>

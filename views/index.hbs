@@ -1,0 +1,704 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="row">
+                {{!-- Slide Show --}}
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 slideshow" data-aos="fade-up">
+                    <div class="title">
+                        <h3 class="topic" style="margin-top: 35px;">
+                            What's New
+                        </h3>
+                    </div>
+                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide-to="0"
+                                class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide-to="1"
+                                aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide-to="2"
+                                aria-label="Slide 3"></button>
+                            <button type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide-to="3"
+                                aria-label="Slide 4"></button>
+                        </div>
+                        <div class="carousel-inner" style="border-radius: 0.5rem;">
+                            <div class="carousel-item active">
+                                <a href="/album-information/Me">
+                                    <img class="slide-show" src="img/me-banner.jpg" class=""
+                                        width="100%" alt="">
+                                </a>
+                            </div>
+                            <div class="carousel-item">
+                                <a href="/album-information/Endless Summer Vacation">
+                                    <img class="slide-show" src="img/endless-summer-vacation-banner.png" class=""
+                                        width="100%" alt="">
+                                </a>
+                            </div>
+                            <div class="carousel-item">
+                                <a href="/artists/Taylor Swift">
+                                    <img class="slide-show" src="img/taylor-swift-banner.png" class="" width="100%"
+                                        alt="">
+                                </a>
+                            </div>
+                            <div class="carousel-item">
+                                <a href="/album-information/Melodrama">
+                                    <img class=" slide-show" src="img/melodrama-banner.png" class="" width="100%"
+                                        alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{!-- Recommended : this is a list of playlist--}}
+            <div class="row" data-aos="fade-right">
+                <div class="title">
+                    <h3 class="topic">
+                        Recommended For You
+                    </h3>
+                </div>
+                {{#each playlists}}
+                <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                    <div class="my-card">
+                        <a href="/playlist-information/{{playlist_name}}">
+                            <div class="img-holder">
+                                <img src={{playlist_img}} alt="">
+                        </a>
+                        <a href="/playlist-information/{{playlist_name}}">
+                        <button class="btn btn-play-hover"><i class="play-pause fas fa-play"></i></button>
+                        </a>
+                    </div>
+                    <div class="text">
+                        <h5 class="playlist-name">{{playlist_name}}</h5>
+                        <p class="describe">{{username}}</p>
+                    </div>
+
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+        {{!-- New Track Releases: this is a list of songs in a playlist called New Song --}}
+        <div class="row" data-aos="fade-right">
+            <div class="title">
+                <h3 class="topic">
+                    New Track Releases
+                </h3>
+                <a href="/playlist-information/{{newsong.playlist_name}}">
+                    <ion-icon class="go-to-playlist" name="chevron-forward-outline"></ion-icon>
+                </a>
+            </div>
+            {{#each newsong}}
+            {{#each songs_id}}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                <div class="my-card">
+                    <a id="song-play">
+                        <div class="img-holder">
+                            <img src={{song_img}} alt="">
+                        </div>
+                        <div class="text">
+                            <h5 class="song-name">{{this.song_name}}</h5>
+                        </div>
+                    </a>
+                    <a id="song-play">
+                    <button class="btn btn-play-hover"><i class="play-pause fas fa-play"></i></button>
+                    </a>
+                    {{#each artists_id}}
+                    <a href="/artists/{{artist_name}}">
+                        <p class="artist-name">{{artist_name}}</p>
+                    </a>
+                    {{/each}}
+                </div>
+            </div>
+            {{/each }}
+            {{/each}}
+        </div>
+
+        {{!-- Album Picks: a list of Album (Album == Playlist) --}}
+        <div class="row" data-aos="fade-right">
+            <div class="title">
+                <h3 class="topic">
+                    Album Picks
+                </h3>
+            </div>
+            {{#each albums}}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                <div class="my-card album">
+                    <a href="/album-information/{{album_name}}">
+                        <div class="img-holder">
+                            <img src={{album_img}} alt="">
+                        </div>
+                        <div class="text">
+                            <h5 class="album-name">{{album_name}}</h5>
+                        </div>
+                    </a>
+                    <a href="/album-information/{{album_name}}">
+                    <button class="btn btn-play-hover"><i class="play-pause fas fa-play"></i></button>
+                    </a>
+                    <a href="/artists/{{artist_name}}">
+                        <p class="artist-name">{{artist_name}}</p>
+                    </a>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+        {{!-- Confidence Boost: this is a list of songs in a playlist called Confidence Boost --}}
+        <div class="row" data-aos="fade-right">
+            <div class="title">
+                <h3 class="topic">
+                    Confidence Boost
+                </h3>
+                <a href="/playlist-information/{{confidence.playlist_name}}">
+                    <ion-icon class="go-to-playlist" name="chevron-forward-outline"></ion-icon>
+                </a>
+            </div>
+            {{#each confidence}}
+            {{#each songs_id}}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                <div class="my-card">
+                    <a id="song-play">
+                        <div class="img-holder">
+                            <img src={{this.song_img}} alt="">
+                        </div>
+                        <div class="text">
+                            <h5 class="song-name">{{this.song_name}}</h5>
+                        </div>
+                    </a>
+                    <a id="song-play">
+                    <button class="btn btn-play-hover"><i class="play-pause fas fa-play"></i></button>
+                    </a>
+                    {{#each this.artists_id}}
+                    <a href="/artists/{{artist_name}}">
+                        <p class="artist-name">{{this.artist_name}}</p>
+                    </a>
+                    {{/each}}
+                </div>
+            </div>
+            {{/each}}
+            {{/each}}
+        </div>
+
+        {{!-- Sensual Lounge: this is a list of songs in a playlist called Sensual Lounge --}}
+        <div class="row" data-aos="fade-right">
+            <div class="title">
+                <h3 class="topic">
+                    Sensual Lounge
+                </h3>
+                <a href="/playlist-information/{{sensual.playlist_name}}">
+                    <ion-icon class="go-to-playlist" name="chevron-forward-outline"></ion-icon>
+                </a>
+            </div>
+            {{#each sensual}}
+            {{#each songs_id}}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                <div class="my-card">
+                    <a id="song-play">
+                        <div class="img-holder">
+                            <img src={{song_img}} alt="">
+                        </div>
+                        <div class="text">
+                            <h5 class="song-name">{{song_name}}</h5>
+                        </div>
+                    </a>
+                    <a id="song-play">
+                    <button class="btn btn-play-hover"><i class="play-pause fas fa-play"></i></button>
+                    </a>
+                    {{#each this.artists_id}}
+                    <a href="/artists/{{artist_name}}">
+                        <p class="artist-name">{{artist_name}}</p>
+                    </a>
+                    {{/each}}
+                </div>
+            </div>
+            {{/each}}
+            {{/each}}
+        </div>
+
+        {{!-- Sadness: this is a list of songs in a playlist called Sadness --}}
+        <div class="row" data-aos="fade-right">
+            <div class="title">
+                <h3 class="topic">
+                    Sadness
+                </h3>
+                <a href="/playlist-information/{{sadness.playlist_name}}">
+                    <ion-icon class="go-to-playlist" name="chevron-forward-outline"></ion-icon>
+                </a>
+            </div>
+            {{#each sadness}}
+            {{#each songs_id}}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                <div class="my-card">
+                    <a id="song-play">
+                        <div class="img-holder">
+                            <img src={{song_img}} alt="">
+                        </div>
+                        <div class="text">
+                            <h5 class="song-name">{{song_name}}</h5>
+                        </div>
+                    </a>
+                    <a id="song-play">
+                    <button class="btn btn-play-hover"><i class="play-pause fas fa-play"></i></button>
+                    </a>
+                    {{#each artists_id}}
+                    <a href="/artists/{{artist_name}}">
+                        <p class="artist-name">{{artist_name}}</p>
+                    </a>
+                    {{/each}}
+                </div>
+            </div>
+            {{/each}}
+            {{/each}}
+        </div>
+
+        {{!-- Fresh Finds: this is a list of songs in a playlist called Fresh Finds --}}
+        <div class="row" data-aos="fade-right">
+            <div class="title">
+                <h3 class="topic">
+                    Fresh Finds
+                </h3>
+                <a href="/playlist-information/{{fresh.playlist_name}}">
+                    <ion-icon class="go-to-playlist" name="chevron-forward-outline"></ion-icon>
+                </a>
+            </div>
+            {{#each fresh}}
+            {{#each songs_id}}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                <div class="my-card">
+                    <a id="song-play">
+                        <div class="img-holder">
+                            <img src={{song_img}} alt="">
+                        </div>
+                        <div class="text">
+                            <h5 class="song-name">{{song_name}}</h5>
+                        </div>
+                    </a>
+                    <a id="song-play">
+                    <button class="btn btn-play-hover"><i class="play-pause fas fa-play"></i></button>
+                    </a>
+                    {{#each artists_id}}
+                    <a href="/artists/{{artist_name}}">
+                        <p class="artist-name">{{artist_name}}</p>
+                    </a>
+                    {{/each}}
+                </div>
+            </div>
+            {{/each}}
+            {{/each}}
+        </div>
+
+        {{!-- Colors Show: this is a list of songs in a playlist called Colors Show --}}
+        <div class="row" data-aos="fade-right">
+            <div class="title">
+                <h3 class="topic">
+                    Colors Show
+                </h3>
+                <a href="/playlist-information/{{colors.playlist_name}}">
+                    <ion-icon class="go-to-playlist" name="chevron-forward-outline"></ion-icon>
+                </a>
+            </div>
+            {{#each colors}}
+            {{#each songs_id}}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                <div class="my-card">
+                    <a id="song-play">
+                        <div class="img-holder">
+                            <img src={{song_img}} alt="">
+                        </div>
+                        <div class="text">
+                            <h5 class="song-name">{{song_name}}</h5>
+                        </div>
+                    </a>
+                    <a id="song-play">
+                    <button class="btn btn-play-hover"><i class="play-pause fas fa-play"></i></button>
+                    </a>
+                    {{#each artists_id}}
+                    <a href="/artists/{{artist_name}}">
+                        <p class="artist-name">{{artist_name}}</p>
+                    </a>
+                    {{/each}}
+                </div>
+            </div>
+            {{/each}}
+            {{/each}}
+        </div>
+
+        {{!-- Red Moon In Venus: this is a list of songs in a playlist called Red Moon In Venus --}}
+        <div class="row" data-aos="fade-right">
+            <div class="title">
+                <h3 class="topic">
+                    Red Moon In Venus
+                </h3>
+                <a href="/playlist-information/{{redmoon.playlist_name}}">
+                    <ion-icon class="go-to-playlist" name="chevron-forward-outline"></ion-icon>
+                </a>
+            </div>
+            {{#each redmoon}}
+            {{#each songs_id}}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                <div class="my-card">
+                    <a id="song-play">
+                        <div class="img-holder">
+                            <img src={{song_img}} alt="">
+                        </div>
+                        <div class="text">
+                            <h5 class="song-name">{{song_name}}</h5>
+                        </div>
+                    </a>
+                    <a id="song-play">
+                    <button class="btn btn-play-hover"><i class="play-pause fas fa-play"></i></button>
+                    </a>
+                    {{#each artists_id}}
+                    <a href="/artists/{{artist_name}}">
+                        <p class="artist-name">{{artist_name}}</p>
+                    </a>
+                    {{/each}}
+                </div>
+            </div>
+            {{/each}}
+            {{/each}}
+        </div>
+
+        {{!-- Psytrance Supernova: this is a list of songs in a playlist called Psytrance Supernova --}}
+        <div class="row" data-aos="fade-right">
+            <div class="title">
+                <h3 class="topic">
+                    Psytrance Supernova
+                </h3>
+                <a href="/playlist-information/{{psytrance.playlist_name}}">
+                    <ion-icon class="go-to-playlist" name="chevron-forward-outline"></ion-icon>
+                </a>
+            </div>
+            {{#each psytrance}}
+            {{#each songs_id}}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                <div class="my-card">
+                    <a id="song-play">
+                        <div class="img-holder">
+                            <img src={{song_img}} alt="">
+                        </div>
+                        <div class="text">
+                            <h5 class="song-name">{{song_name}}</h5>
+                        </div>
+                    </a>
+                    <a id="song-play">
+                    <button class="btn btn-play-hover"><i class="play-pause fas fa-play"></i></button>
+                    </a>
+                    {{#each artists_id}}
+                    <a href="/artists/{{artist_name}}">
+                        <p class="artist-name">{{artist_name}}</p>
+                    </a>
+                    {{/each}}
+                </div>
+            </div>
+            {{/each}}
+            {{/each}}
+        </div>
+
+
+        <div class="row" data-aos="fade-right">
+            <div class="title" style="padding-bottom: 0px; margin-bottom: 0px;">
+                <h3 class="topic">
+                    Categories
+                </h3>
+                <a href="/categories">
+                    <ion-icon class="go-to-playlist" name="chevron-forward-outline"></ion-icon>
+                </a>
+            </div>
+            {{#each categories}}
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4" data-aos="fade-right">
+                <a href="/categories/{{genre_name}}">
+                    <button type="button" class="categories" id="cate-{{toLowerCase genre_name}}">
+                        <div class="row">
+                            <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+                                {{genre_name}}
+                            </div>
+                        </div>
+                    </button>
+                </a>
+            </div>
+            {{/each}}
+
+        </div>
+
+
+
+
+        {{!-- Chart --}}
+        <div class="row chart-top" id="chart-top">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4" data-aos="fade-down">
+                <div class="title">
+                    <h3 class="topic">
+                        {{!-- Playlist Top 10 Song --}}
+                        Paradise Hot 10
+                    </h3>
+                    <a href="/playlist-information/{{top10.playlist_name}}">
+                        <ion-icon class="go-to-playlist" name="chevron-forward-outline"></ion-icon>
+                    </a>
+                </div>
+                {{#each top10}}
+                {{#each songs_id}}
+                <div class="row g-0 flex-container">
+                    <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 rank">{{inc @index}}</div>
+                    <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                        <div class="chart-card">
+                            <a id="song-play-chart">
+                                <div class="img-holder">
+                                    <img src={{song_img}} alt="">
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <div class="chart-text">
+                            <a id="song-play-chart">
+                                <h5 class="song-name">{{song_name}}</h5>
+                            </a>
+                            {{#each artists_id}}
+                            <a href="/artists/{{artist_name}}">
+                                <p class="artist-name">{{artist_name}}</p>
+                            </a>
+                            {{/each}}
+                        </div>
+                    </div>
+                    <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 dropdown-top-song">
+                        <div class="dropdown dropdown-lg d-inline-block ms-auto">
+                            <a href="#" role="button" id="dropdownMenu1" data-bs-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <ion-icon class="more" name="ellipsis-horizontal"></ion-icon>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu1">
+                                
+                                <li class="add-to-playlist-button">
+                                    <button type="button" class="add-to-playlist" data-bs-toggle="modal"
+                                        data-bs-target="#add-to-playlist">
+                                        <i class="fa-solid fa-plus icon-like-add-to-playlis"></i>Add to playlist
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                {{/each}}
+                {{/each}}
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4" data-aos="fade-up">
+                <div class="title">
+                    <h3 class="topic">
+                        Album Of The Week
+                    </h3>
+                </div>
+                {{#each albumweek}}
+                <div class="row g-0 flex-container">
+                    <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 rank">{{inc @index}}</div>
+                    <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                        <div class="chart-card">
+                            <a href="/album-information/{{album_name}}">
+                                <div class="img-holder">
+                                    <img src={{album_img}} alt="">
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+                        <div class="chart-text">
+                            <a href="/album-information/{{album_name}}">
+                                <h5 class="song-name">{{album_name}}</h5>
+                            </a>
+                            <a href="/artists/{{artist_name}}">
+                                <p class="artist-name">{{artist_name}}</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                {{/each}}
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4" data-aos="fade-down">
+                <div class="title">
+                    <h3 class="topic">
+                        Featured Artist
+                    </h3>
+                    <a href="/feature-artists">
+                        <ion-icon class="go-to-playlist" name="chevron-forward-outline"></ion-icon>
+                    </a>
+                </div>
+                {{#each ftartist}}
+                <div class="row g-0 flex-container">
+                    <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 rank">{{inc @index}}</div>
+                    <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                        <div class="chart-card-art">
+                            <a href="/artists/{{artist_name}}">
+                                <div class="img-artist">
+                                    <img src={{artist_img}} alt="">
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+                        <div class="artist-chart-text">
+                            <a href="/artists/{{artist_name}}">
+                                <h5 class="artist-name-in-artist-chart">{{artist_name}}</h5>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                {{/each}}
+            </div>
+        </div>
+
+        {{!-- Artis We Love --}}
+        <div class="row" data-aos="fade-right">
+            <div class="title">
+                <h3 class="topic">
+                    {{!-- Random 6 artists --}}
+                    Artist We Love
+                </h3>
+            </div>
+            {{#each loveartist}}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                <div class="artist-card">
+                    <a href="/artists/{{artist_name}}">
+                        <div class="img-artist">
+                            <img src={{artist_img}} alt="">
+                        </div>
+                    </a>
+                    <div class="text">
+                        <a href="/artists/{{artist_name}}">
+                            <h5 class="name-artist">{{artist_name}}</h5>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+        {{!-- music video --}}
+        <div class="row" style="height: 600px; margin-bottom: 20px;" data-aos="fade-right">
+            <div class="title">
+                <h3 class="topic">
+                    New Music Video
+                </h3>
+            </div>
+
+            <iframe height="540" width="560" src="https://www.youtube.com/embed/h8DLofLM7No"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+            </iframe>
+
+
+        </div>
+
+        {{!-- More to explore --}}
+        <div class="row mb-5" data-aos="fade-right">
+            <div class="title">
+                <h3 class="topic">
+                    More to Explore
+                </h3>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                <a href="/premium">
+                    <button type="button" class="btn-explore">
+                        <div class="row">
+                            <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+                                Premium
+                            </div>
+                            <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                <ion-icon class="go-to-premium" name="chevron-forward-outline"></ion-icon>
+                            </div>
+                        </div>
+                    </button>
+                </a>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                <a href="/decades">
+                    <button type="button" class="btn-explore">
+                        <div class="row">
+                            <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+                                Decades
+                            </div>
+                            <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                <ion-icon class="go-to-premium" name="chevron-forward-outline"></ion-icon>
+                            </div>
+                        </div>
+                    </button>
+                </a>
+
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                <a href="/artists">
+                    <button type="button" class="btn-explore">
+                        <div class="row">
+                            <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+                                Artists
+                            </div>
+                            <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                <ion-icon class="go-to-premium" name="chevron-forward-outline"></ion-icon>
+                            </div>
+                        </div>
+                    </button>
+                </a>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                <a href="/categories" data-ajax>
+                    <button type="button" class="btn-explore">
+                        <div class="row">
+                            <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+                                Browse Categories
+                            </div>
+                            <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                <ion-icon class="go-to-premium" name="chevron-forward-outline"></ion-icon>
+                            </div>
+                        </div>
+                    </button>
+                </a>
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                <a href="/time-is">
+                    <button type="button" class="btn-explore">
+                        <div class="row">
+                            <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+                                Time Is?
+                            </div>
+                            <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                <ion-icon class="go-to-premium" name="chevron-forward-outline"></ion-icon>
+                            </div>
+                        </div>
+                    </button>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+{{!-- animation scroll --}}
+<script>
+    AOS.init();
+</script>
+
+</div>
+
+<div class="search-container-wrapper">
+    <h3>Looking for something specific?</h3>
+    <div class="search-container">
+            <form action="/search/searchKey" method="get">
+              <input type="text" name="q" placeholder="Search something...">
+              <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </form>
+    </div>
+</div>
+
+<script>
+  
+</script>
+
+{{!-- <audio id="music-player" controls="true">
+    <source src="/song_mp3/24.mp3" type="audio/mpeg">
+</audio> --}}

@@ -1,0 +1,74 @@
+<div class="login">
+    <header data-aos="fade-left">
+        <a href="../" class="brand"><img src="img/logo1.png" alt="">Paradise Music</a>
+        <div class="menu-btn"></div>
+        <div class="navigation">
+            <div class="navigation-items">
+                <a style="text-decoration: none;" href="../">Home</a>
+                <a href="/aboutUs">About Us</a>
+                <a href="/privacy-policy">Privacy</a>
+                <a href="/feedback">Feedback</a>
+                <a href="/contact">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <div class="form-box" style="margin-top: 35px;" data-aos="fade-right">
+            <div class="form-value">
+                <form action="" method="post">
+                    <h2 class="login-intro">Register</h2>
+                    <div class="inputbox">
+                        <ion-icon name="person-outline"></ion-icon>
+                        <input type="text" required name="name" value="{{{name}}}">
+                        <label for="name">Name</label>
+                    </div>
+                    <div class="inputbox">
+                        <ion-icon name="person-outline"></ion-icon>
+                        <input type="text" required name="username" value={{username}}>
+                        <label for="username">Username</label>
+                    </div>
+                    <div class="inputbox">
+                        <ion-icon name="mail-outline"></ion-icon>
+                        <input type="text" required name="email" value={{mail}}>
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="inputbox">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        <input type="password" required name="password">
+                        <label for="pasword">Password</label>
+                    </div>
+                    <div class="inputbox">
+                        <ion-icon name="shield-checkmark-outline"></ion-icon>
+                        <input type="password" required name="confirm_password">
+                        <label for="confirm_password">Confirm Password</label>
+                    </div>
+                    <button class="button-login-register" type="submit">Register</button>
+                    <div class="register">
+                        <p>Already have a account? <a href="/login">Login here</a></p>
+                    </div>
+                    {{#if error}}
+                    <div class="alert alert-danger" style="text-align: center">{{error}}</div>
+                    {{/if}}
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        //javascript of responsive navigation menu
+        const menuBtn = document.querySelector(".menu-btn");
+        const navigation = document.querySelector(".navigation");
+
+        menuBtn.addEventListener("click", () => {
+            menuBtn.classList.toggle("active");
+            navigation.classList.toggle("active");
+        });
+    </script>
+
+    {{!-- animation scroll --}}
+    <script>
+        AOS.init();
+    </script>
+
+</div>

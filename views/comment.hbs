@@ -1,0 +1,135 @@
+{{#each song}}
+<div class="container" style="min-height:100vh;">
+    <div class="intro-box mt-3" id="bg" data-aos="fade-right">
+        <div class="row flex-container">
+            <div class="col-3 col-sm-3 col-md-4 col-lg-3 col-xl-2">
+                <div class="my-card">
+                    <a href="">
+                        <img src={{song_img}} alt="">
+                    </a>
+                </div>
+            </div>
+            <div class="col-9 col-sm-9 col-md-8 col-lg-9 col-xl-10">
+                <div class="intro-text">
+                    <p class="hint">Comment</p>
+                    <a href="">
+                        <div class="song-name-in-lyrics">{{song_name}}</div>
+                    </a>
+                    {{#each artists_id}}
+                    <p class="artist-name-in-lyrics">{{artist_name}}</p>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" data-aos="fade-right">
+        <div class="comment-header-renderer mt-3">
+            <span>{{comment_id.length}} comment(s)</span>
+            <div class="dropdown">
+                <button class="btn btn-secondary-in-comment dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Sort by
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Newest</a></li>
+                    <li><a class="dropdown-item" href="#">Oldest</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="comment-container d-flex mb-5">
+            <div class="image-comment-container">
+                <img src="/img/default.png" alt="">
+            </div>
+            <form class="form-comment d-flex" method="post" action="addComment/{{song_name}}">
+                <input type="text" class="comment-input" name="message" placeholder='Write something...'></input>
+                <input class="submit-comment" type="submit" value='Comment'>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="comment-list d-block">
+            {{#each comment_id}}
+            <div class="comment-content d-flex mb-3">
+                <div class="comment-info align-items-center">
+                    <div class="image-comment-container">
+                        <a href="">
+                            <img src={{user_id.user_img}} alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="d-block">
+                    <div class="user-comment-info ">
+                        <div class="d-flex">
+                            <a href="">
+                                <p class="user-name">{{user_id.username}}</p>
+                            </a>
+                            <span class="time-comment">{{timeElapsed day_created}}</span>
+                        </div>
+                        <p class="user-comment">{{message}}</p>
+                    </div>
+                    <div class="action-comment d-flex">
+                        <button class="like-comment">
+                            <i class="fa-regular fa-thumbs-up"></i>
+                        </button>
+                        <span class="number-likes">2</span>
+                        <button class="dislike-comment">
+                            <i class="fa-regular fa-thumbs-down"></i>
+                        </button>
+                        <span class="number-dislikes">1</span>
+                        <button class="reply-comment">
+                            Reply
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
+
+
+
+
+</div>
+{{/each}}
+<script>
+    var feild = document.querySelector('textarea');
+    var backUp = feild.getAttribute('placeholder');
+    var btn = document.querySelector('.btn-cmt');
+    var clear = document.getElementById('clear-comment')
+
+    const timeCreated = document.querySelectorAll('.time-comment');
+    const now = new Date();
+
+    timeCreated.forEach((element) => {
+        const dayCreated = new Date(element.textContent);
+        const diffTime = now.getTime() - dayCreated.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        element.nextElementSibling.textContent = `${diffDays} days ago`;
+    });
+
+
+    feild.onfocus = function () {
+        this.setAttribute('placeholder', '');
+        this.style.borderColor = '#333';
+        btn.style.display = 'block'
+    }
+
+    feild.onblur = function () {
+        this.setAttribute('placeholder', backUp);
+        this.style.borderColor = '#aaa'
+    }
+
+    clear.onclick = function () {
+        btn.style.display = 'none';
+        feild.value = '';
+    }
+</script>
+
+{{!-- animation scroll --}}
+<script>
+    AOS.init();
+</script>

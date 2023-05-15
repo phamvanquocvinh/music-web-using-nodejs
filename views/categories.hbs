@@ -1,0 +1,33 @@
+<div class="container" style="min-height:100vh; margin-bottom: 70px;">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="row mb-5">
+                <div class="title">
+                    <h3 class="topic">
+                        Browse by Categories
+                    </h3>
+                </div>
+                {{#each genre}}
+                <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4" data-aos="fade-right">
+                    <div class="my-card-cate">
+                        <a href="/categories/{{genre_name}}">
+                            <button type="button" class="categories" id="cate-{{toLowerCase genre_name}}">
+                                <div class="row">
+                                    <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+                                        {{genre_name}}
+                                    </div>
+                                </div>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+
+    {{!-- animation scroll --}}
+    <script>
+        AOS.init();
+    </script>
+</div>

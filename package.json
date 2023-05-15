@@ -1,0 +1,29 @@
+{
+  "name": "webnodejs",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon --inspect ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0",
+    "express-handlebars": "^7.0.2",
+    "express-session": "^1.17.3",
+    "g": "^2.0.1",
+    "hbs": "^4.2.0",
+    "http-errors": "~1.6.3",
+    "init": "^0.1.2",
+    "mongoose": "^6.10.0",
+    "morgan": "~1.9.1",
+    "nodemailer": "^6.9.1",
+    "nodemon": "^2.0.20",
+    "pug": "^3.0.2",
+    "socket.io": "^4.6.1",
+    "validator": "^13.9.0"
+  }
+}

@@ -1,0 +1,75 @@
+<div class="container" data-aos="fade-down" style="min-height: 100vh;">
+  <div class="box">
+    <div class="box-ads">
+      <div class="wapper-left">
+        <h4 class="head-title">MusicParadise offers the following forms of advertising:</h4>
+        <div class="content-intro-ads">
+          <div class="detail">
+            <div class="img"><img src="/img/display-ads.png" alt></div>
+            <p>Display Ads</p>
+          </div>
+          <div class="detail">
+            <div class="img"><img src="/img/media-ads.png" alt></div>
+            <p>Video Ads & Audio Ads</p>
+          </div>
+          <div class="detail">
+            <div class="img"><img src="/img/pop-ads.png" alt></div>
+            <p>Pop Ads</p>
+          </div>
+        </div>
+
+        <div class="content-intro-ads">
+          <div class="detail">
+            <div class="img"><img src="/img/music-promotion.png" alt></div>
+            <p>Music Promotion</p>
+          </div>
+          <div class="detail">
+            <div class="img"><img src="/img/artist-connection.png" alt></div>
+            <p>Artist Connection</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="wapper-right">
+        <div class="row-input">
+          <label class="form-cell form-label" for="name">Name:</label>
+          <input class="form-cell form-textbox form-textbox-text" id="customer_name" type="text" name="name"
+            data-validate="required" required="" v-model="name">
+        </div>
+        <div class="row-input">
+          <label class="form-cell form-label" for="email">Email Address:</label>
+          <input class="form-cell form-textbox form-textbox-text" id="customer_email" type="text" name="email"
+            data-validate="required" required="" v-model="email">
+        </div>
+        <div class="row-input">
+          <label class="form-cell form-label" for="phone_number">Phone Number:</label>
+          <input class="form-cell form-textbox form-textbox-text" id="customer_phone" type="text" name="phone"
+            data-validate="required" required="" v-model="phone">
+        </div>
+        <div class="row-input">
+          <label class="form-cell form-label" for="your_company">Your Company:</label>
+          <input class="form-cell form-textbox form-textbox-text" id="customer_company" type="text" name="company"
+            data-validate="required" required="" v-model="company">
+        </div>
+        <div class="row-input">
+          <label class="form-label form-cell" for="content_ads">Content:</label>
+          <textarea class="form-cell form-textbox form-textbox-area" id="customer_content" name="content_ads"
+            data-validate="required" required="" v-model="content_ads"></textarea>
+        </div>
+        <div class="form-submit" style="margin-left: 16px;">
+          <button id="btnSend" class="btn-submit">Download price list</button>
+        </div>
+      </div>
+    </div>
+    <div class="contact-detail">
+      <h4 class="detail-qc-txt">Contact the sales department for details:</h4>
+      <p class="info-detail">Hotline: (037) 9128 127</p>
+      <p class="info-detail">Email: ads@paradise.vn</p>
+    </div>
+  </div>
+</div>
+
+{{!-- animation scroll --}}
+    <script>
+        AOS.init();
+    </script>
